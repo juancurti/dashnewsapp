@@ -1,4 +1,8 @@
 import 'package:dashnews/data/controller.dart';
+import 'package:dashnews/views/ArticlesScreen.dart';
+import 'package:dashnews/views/BookmarksScreen.dart';
+import 'package:dashnews/views/MainScreen.dart';
+import 'package:dashnews/views/SettingsScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -14,11 +18,10 @@ class _HomeScreenState extends State<HomeScreen> {
   final ControllerSession appController = Get.find();
   int currentIndex = 0;
   final List<Widget> _children = [
-    Container(
-      width: 10,
-      height: 10,
-      color: Colors.green,
-    )
+    MainScreen(),
+    BookmarksScreen(),
+    ArticlesScreen(),
+    SettingsScreen()
   ];
   @override
   void initState() {
@@ -26,9 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     if (widget.currentIndex > 0) {
       this.setState(() {
-        currentIndex = 0;
-        //TEST
-        // currentIndex = widget.currentIndex;
+        currentIndex = widget.currentIndex;
       });
     }
   }
@@ -62,13 +63,41 @@ class _HomeScreenState extends State<HomeScreen> {
             showUnselectedLabels: false,
             items: [
               BottomNavigationBarItem(
-                  icon: Icon(Icons.home), title: Text('Home')),
+                  icon: ImageIcon(
+                    AssetImage('assets/homeIcon.png'),
+                    size: 40,
+                    color: currentIndex == 0
+                        ? Color.fromRGBO(226, 214, 51, 1)
+                        : Color.fromRGBO(152, 154, 156, 1),
+                  ),
+                  title: Text('Home')),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.home), title: Text('Bookmarks')),
+                  icon: ImageIcon(
+                    AssetImage('assets/bookmarksIcon.png'),
+                    size: 40,
+                    color: currentIndex == 1
+                        ? Color.fromRGBO(226, 214, 51, 1)
+                        : Color.fromRGBO(152, 154, 156, 1),
+                  ),
+                  title: Text('Bookmarks')),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.home), title: Text('Library')),
+                  icon: ImageIcon(
+                    AssetImage('assets/articlesIcon.png'),
+                    size: 40,
+                    color: currentIndex == 2
+                        ? Color.fromRGBO(226, 214, 51, 1)
+                        : Color.fromRGBO(152, 154, 156, 1),
+                  ),
+                  title: Text('Library')),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.home), title: Text('Settings'))
+                  icon: ImageIcon(
+                    AssetImage('assets/settingsIcon.png'),
+                    size: 40,
+                    color: currentIndex == 3
+                        ? Color.fromRGBO(226, 214, 51, 1)
+                        : Color.fromRGBO(152, 154, 156, 1),
+                  ),
+                  title: Text('Settings'))
             ],
           ),
         ),

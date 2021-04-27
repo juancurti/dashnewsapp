@@ -4,6 +4,7 @@ import 'package:get_storage/get_storage.dart';
 
 import 'data/controller.dart';
 import 'views/HomeScreen.dart';
+import 'views/SplashScreen.dart';
 
 void main() async {
   await GetStorage.init();
@@ -26,8 +27,6 @@ class MyApp extends StatelessWidget {
           primaryColor: Colors.orange,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        home: HomeScreen(
-          currentIndex: 0,
-        ));
+        home: SplashScreen());
   }
 }

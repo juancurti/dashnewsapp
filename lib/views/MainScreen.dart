@@ -1,3 +1,4 @@
+import 'package:dashnews/data/ThemeHandler.dart';
 import 'package:dashnews/data/controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -15,7 +16,8 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromRGBO(19, 20, 21, 1),
+      backgroundColor:
+          ThemeHandler.getBackgroundColor(dark: appController.darkMode.value),
       body: Container(
         padding: EdgeInsets.only(top: 40),
         width: MediaQuery.of(context).size.width,

@@ -6,6 +6,13 @@ import 'package:get_storage/get_storage.dart';
 class ControllerSession extends GetxController {
   final storageBox = GetStorage();
   var exIds = [].obs;
+  var darkMode = false.obs;
+
+  void setDarkMode({dark: bool}) async {
+    storageBox.write('dark', dark);
+    this.darkMode.value = dark;
+    this.darkMode.refresh();
+  }
 
   void addBookmark({exId: String}) async {
     if (storageBox.hasData('exIds')) {
@@ -30,6 +37,11 @@ class ControllerSession extends GetxController {
       List<dynamic> _exIds = storageBox.read('exIds');
       this.exIds.value = _exIds;
       this.exIds.refresh();
+    }
+    if (storageBox.hasData('dark')) {
+      bool _dark = storageBox.read('dark');
+      this.darkMode.value = _dark;
+      this.darkMode.refresh();
     }
   }
 }

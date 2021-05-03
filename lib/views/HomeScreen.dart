@@ -1,3 +1,4 @@
+import 'package:dashnews/data/ThemeHandler.dart';
 import 'package:dashnews/data/controller.dart';
 import 'package:dashnews/views/ArticlesScreen.dart';
 import 'package:dashnews/views/BookmarksScreen.dart';
@@ -37,70 +38,73 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color.fromRGBO(254, 252, 255, 1),
+        backgroundColor:
+            ThemeHandler.getBackgroundColor(dark: appController.darkMode.value),
         bottomNavigationBar: SizedBox(
-          height: 80,
-          child: BottomNavigationBar(
-            onTap: (ind) {
-              this.setState(() {
-                currentIndex = ind;
-              });
-            },
-            currentIndex: currentIndex,
-            fixedColor: Color.fromRGBO(226, 214, 51, 1),
-            unselectedItemColor: Color.fromRGBO(152, 154, 156, 1),
-            backgroundColor: Color.fromRGBO(17, 14, 41, 1),
-            type: BottomNavigationBarType.fixed,
-            unselectedLabelStyle: TextStyle(
-                color: Color.fromRGBO(152, 154, 156, 1),
-                fontWeight: FontWeight.w700,
-                fontSize: 16),
-            selectedLabelStyle: TextStyle(
-                color: Color.fromRGBO(226, 214, 51, 1),
-                fontWeight: FontWeight.w700,
-                fontSize: 16),
-            showSelectedLabels: false,
-            showUnselectedLabels: false,
-            items: [
-              BottomNavigationBarItem(
-                  icon: ImageIcon(
-                    AssetImage('assets/homeIcon.png'),
-                    size: 40,
-                    color: currentIndex == 0
-                        ? Color.fromRGBO(226, 214, 51, 1)
-                        : Color.fromRGBO(152, 154, 156, 1),
-                  ),
-                  title: Text('Home')),
-              BottomNavigationBarItem(
-                  icon: ImageIcon(
-                    AssetImage('assets/bookmarksIcon.png'),
-                    size: 40,
-                    color: currentIndex == 1
-                        ? Color.fromRGBO(226, 214, 51, 1)
-                        : Color.fromRGBO(152, 154, 156, 1),
-                  ),
-                  title: Text('Bookmarks')),
-              BottomNavigationBarItem(
-                  icon: ImageIcon(
-                    AssetImage('assets/articlesIcon.png'),
-                    size: 40,
-                    color: currentIndex == 2
-                        ? Color.fromRGBO(226, 214, 51, 1)
-                        : Color.fromRGBO(152, 154, 156, 1),
-                  ),
-                  title: Text('Library')),
-              BottomNavigationBarItem(
-                  icon: ImageIcon(
-                    AssetImage('assets/settingsIcon.png'),
-                    size: 40,
-                    color: currentIndex == 3
-                        ? Color.fromRGBO(226, 214, 51, 1)
-                        : Color.fromRGBO(152, 154, 156, 1),
-                  ),
-                  title: Text('Settings'))
-            ],
-          ),
-        ),
+            height: 80,
+            child: Obx(
+              () => BottomNavigationBar(
+                onTap: (ind) {
+                  this.setState(() {
+                    currentIndex = ind;
+                  });
+                },
+                currentIndex: currentIndex,
+                fixedColor: Color.fromRGBO(0, 141, 228, 1),
+                unselectedItemColor: Color.fromRGBO(127, 140, 152, 1),
+                backgroundColor: ThemeHandler.getBottomBarColor(
+                    dark: appController.darkMode.value),
+                type: BottomNavigationBarType.fixed,
+                unselectedLabelStyle: TextStyle(
+                    color: Color.fromRGBO(152, 154, 156, 1),
+                    fontWeight: FontWeight.w700,
+                    fontSize: 16),
+                selectedLabelStyle: TextStyle(
+                    color: Color.fromRGBO(226, 214, 51, 1),
+                    fontWeight: FontWeight.w700,
+                    fontSize: 16),
+                showSelectedLabels: false,
+                showUnselectedLabels: false,
+                items: [
+                  BottomNavigationBarItem(
+                      icon: ImageIcon(
+                        AssetImage('assets/home-icon.png'),
+                        size: 30,
+                        color: currentIndex == 0
+                            ? Color.fromRGBO(0, 141, 228, 1)
+                            : Color.fromRGBO(127, 140, 152, 1),
+                      ),
+                      title: Text('Home')),
+                  BottomNavigationBarItem(
+                      icon: ImageIcon(
+                        AssetImage('assets/bookmarks-icon.png'),
+                        size: 30,
+                        color: currentIndex == 1
+                            ? Color.fromRGBO(0, 141, 228, 1)
+                            : Color.fromRGBO(127, 140, 152, 1),
+                      ),
+                      title: Text('Bookmarks')),
+                  BottomNavigationBarItem(
+                      icon: ImageIcon(
+                        AssetImage('assets/articles-icon.png'),
+                        size: 30,
+                        color: currentIndex == 2
+                            ? Color.fromRGBO(0, 141, 228, 1)
+                            : Color.fromRGBO(127, 140, 152, 1),
+                      ),
+                      title: Text('Library')),
+                  BottomNavigationBarItem(
+                      icon: ImageIcon(
+                        AssetImage('assets/settings-icon.png'),
+                        size: 30,
+                        color: currentIndex == 3
+                            ? Color.fromRGBO(0, 141, 228, 1)
+                            : Color.fromRGBO(127, 140, 152, 1),
+                      ),
+                      title: Text('Settings'))
+                ],
+              ),
+            )),
         body: _children[currentIndex]);
   }
 }

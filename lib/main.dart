@@ -23,10 +23,12 @@ class MyApp extends StatelessWidget {
         title: 'Dash News App',
         theme: ThemeData(
           primarySwatch: Colors.yellow,
-          fontFamily: 'Helvetica Neue',
+          fontFamily: 'Poppins',
           primaryColor: Colors.orange,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        home: SplashScreen());
+        home: HomeScreen(
+          currentIndex: 0,
+        ));
   }
 }

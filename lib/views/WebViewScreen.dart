@@ -4,6 +4,7 @@ import 'package:dashnews/data/ThemeHandler.dart';
 import 'package:dashnews/data/controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:share/share.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import 'HomeScreen.dart';
@@ -43,12 +44,25 @@ class _WebViewScreenState extends State<WebViewScreen> {
       Get.back();
     }
 
-    print(_loadUrl);
+    if (_loadUrl != null) {
+      appController.addSeen(seenUrls: _loadUrl);
+    }
   }
 
-  void addBookmark() {}
+  void addBookmark() {
+    print(appController.exIds.value);
+    if (_loadUrl != null) {
+      appController.addBookmark(
+          exId: _loadUrl.replaceAll('m.reddit', 'old.reddit'));
+    }
+  }
 
-  void share() {}
+  void share() {
+    if (_loadUrl == null) {
+      return;
+    }
+    Share.share('Check the new article on Dash News App: $_loadUrl');
+  }
 
   @override
   Widget build(BuildContext context) {

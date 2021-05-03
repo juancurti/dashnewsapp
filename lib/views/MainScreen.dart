@@ -15,27 +15,61 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor:
-          ThemeHandler.getBackgroundColor(dark: appController.darkMode.value),
-      body: Container(
-        padding: EdgeInsets.only(top: 40),
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              'Home',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 22,
-              ),
+    return Obx(() => Scaffold(
+          backgroundColor: ThemeHandler.getBackgroundColor(
+              dark: appController.darkMode.value),
+          body: Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 80,
+                    decoration: BoxDecoration(
+                      color: ThemeHandler.getTopBarColor(
+                          dark: appController.darkMode.value),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withAlpha(100),
+                          blurRadius: 20.0,
+                          offset: new Offset(0.0, 5.0),
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      children: [
+                        SizedBox(width: 20),
+                        Text(
+                          'Dash News',
+                          style: TextStyle(
+                            fontFamily: 'Poppins',
+                            color: Colors.white,
+                            fontSize: 22,
+                          ),
+                        ),
+                      ],
+                    )),
+                SizedBox(
+                  height: 10,
+                ),
+                Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height - 170,
+                    child: ListView(
+                      children: [
+                        SizedBox(height: 20),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [],
+                        )
+                      ],
+                    ))
+              ],
             ),
-          ],
-        ),
-      ),
-    );
+          ),
+        ));
   }
 }

@@ -58,7 +58,9 @@ class RequestHandler {
         int downs = c['downs'];
         double upvoteratio = c['upvote_ratio'];
         if (downs >= 0 && upvoteratio >= 0) {
-          _list.add(c);
+          if (c['url'] != null || c['url_overridden_by_dest'] != null) {
+            _list.add(c);
+          }
         }
       });
 

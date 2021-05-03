@@ -37,10 +37,14 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   void orderByNewest() {
-    List<dynamic> _new = _originalList;
-    _new.sort((b, a) => a['created_utc'].compareTo(b['created_utc']));
-    this.setState(() {
-      _filteredList = _new;
+    RequestHandler.getNewPosts(fromSubreddit: "dashpay").then((_dashPayPosts) {
+      List<dynamic> _new = _dashPayPosts;
+      _new.sort((b, a) => a['created_utc'].compareTo(b['created_utc']));
+      this.setState(() {
+        _filteredList = _new;
+      });
+    }, onError: (err) {
+      print(err);
     });
   }
 
@@ -48,7 +52,25 @@ class _MainScreenState extends State<MainScreen> {
     this.loadPosts();
   }
 
-  void filterByBookmarks() {}
+  void filterByBookmarks() {
+    RequestHandler.getNewPosts(fromSubreddit: "dashpay").then((_dashPayPosts) {
+      List<dynamic> _new = _dashPayPosts.where((element) {
+        if (element['url'] != null) {
+          return appController.exIds.value.contains(element['url']);
+        } else if (element['url_overridden_by_dest'] != null) {
+          return appController.exIds.value
+              .contains(element['url_overridden_by_dest']);
+        } else {
+          return false;
+        }
+      }).toList();
+      this.setState(() {
+        _filteredList = _new;
+      });
+    }, onError: (err) {
+      print(err);
+    });
+  }
 
   void doSearch() {
     List<dynamic> _newItems = _originalList
@@ -62,7 +84,15 @@ class _MainScreenState extends State<MainScreen> {
     });
   }
 
-  void markAllRead() {}
+  void markAllRead() {
+    _originalList.forEach((o) {
+      if (o['url'] != null) {
+        appController.addSeen(seenUrls: o['url']);
+      } else if (o['url_overridden_by_dest'] != null) {
+        appController.addSeen(seenUrls: o['url_overridden_by_dest']);
+      }
+    });
+  }
 
   Widget getArticleWidget({Map<String, dynamic> item}) {
     double _parsedTS = double.parse(item['created_utc'].toString());
@@ -186,12 +216,28 @@ class _MainScreenState extends State<MainScreen> {
               ],
             ),
           ),
-          Container(
-            height: 100,
-            width: 2,
-            color:
-                ThemeHandler.getNewBarColor(dark: appController.darkMode.value),
-          )
+          item['url'] != null
+              ? Container(
+                  height: 100,
+                  width: 2,
+                  color: appController.seenUrls.value.contains(item['url'])
+                      ? ThemeHandler.getCardBackgroundColor(
+                          dark: appController.darkMode.value)
+                      : ThemeHandler.getNewBarColor(
+                          dark: appController.darkMode.value),
+                )
+              : (item['url_overridden_by_dest'] != null
+                  ? Container(
+                      height: 100,
+                      width: 2,
+                      color: appController.seenUrls.value
+                              .contains(item['url_overridden_by_dest'])
+                          ? ThemeHandler.getCardBackgroundColor(
+                              dark: appController.darkMode.value)
+                          : ThemeHandler.getNewBarColor(
+                              dark: appController.darkMode.value),
+                    )
+                  : SizedBox())
         ],
       ),
     );

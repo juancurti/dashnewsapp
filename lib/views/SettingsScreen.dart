@@ -3,6 +3,7 @@ import 'package:dashnews/data/controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:get/get.dart';
+import 'package:in_app_review/in_app_review.dart';
 
 class SettingsScreen extends StatefulWidget {
   SettingsScreen({Key key}) : super(key: key);
@@ -13,6 +14,7 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   final ControllerSession appController = Get.find();
+  final InAppReview inAppReview = InAppReview.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -201,59 +203,67 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             SizedBox(
                               height: 20,
                             ),
-                            Container(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 16, horizontal: 20),
-                              width: MediaQuery.of(context).size.width * 0.8,
-                              // height: 160,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withAlpha(40),
-                                      blurRadius: 20.0,
-                                      offset: new Offset(0.0, 5.0),
+                            InkWell(
+                              onTap: () async {
+                                if (await inAppReview.isAvailable()) {
+                                  inAppReview.requestReview();
+                                }
+                              },
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 16, horizontal: 20),
+                                width: MediaQuery.of(context).size.width * 0.8,
+                                // height: 160,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(15),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withAlpha(40),
+                                        blurRadius: 20.0,
+                                        offset: new Offset(0.0, 5.0),
+                                      ),
+                                    ],
+                                    color: ThemeHandler.getCardBackgroundColor(
+                                        dark: appController.darkMode.value)),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Container(
+                                            width: 40,
+                                            height: 40,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                color: ThemeHandler
+                                                    .getShadowCardColor(
+                                                        dark: appController
+                                                            .darkMode.value)),
+                                            child: Center(
+                                              child: Container(
+                                                width: 25,
+                                                height: 25,
+                                                decoration: BoxDecoration(
+                                                    image: DecorationImage(
+                                                        image: AssetImage(
+                                                            'assets/review-icon.png'))),
+                                              ),
+                                            )),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        Text('Review DashNews',
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                color:
+                                                    ThemeHandler.getTextColor(
+                                                        dark: appController
+                                                            .darkMode.value),
+                                                fontWeight: FontWeight.w500))
+                                      ],
                                     ),
                                   ],
-                                  color: ThemeHandler.getCardBackgroundColor(
-                                      dark: appController.darkMode.value)),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      Container(
-                                          width: 40,
-                                          height: 40,
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              color: ThemeHandler
-                                                  .getShadowCardColor(
-                                                      dark: appController
-                                                          .darkMode.value)),
-                                          child: Center(
-                                            child: Container(
-                                              width: 25,
-                                              height: 25,
-                                              decoration: BoxDecoration(
-                                                  image: DecorationImage(
-                                                      image: AssetImage(
-                                                          'assets/review-icon.png'))),
-                                            ),
-                                          )),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      Text('Review DashNews',
-                                          style: TextStyle(
-                                              fontSize: 18,
-                                              color: ThemeHandler.getTextColor(
-                                                  dark: appController
-                                                      .darkMode.value),
-                                              fontWeight: FontWeight.w500))
-                                    ],
-                                  ),
-                                ],
+                                ),
                               ),
                             ),
                             SizedBox(

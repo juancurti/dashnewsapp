@@ -156,6 +156,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.2"
+  in_app_review:
+    dependency: "direct main"
+    description:
+      name: in_app_review
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0-nullsafety"
+  in_app_review_platform_interface:
+    dependency: transitive
+    description:
+      name: in_app_review_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0-nullsafety"
   js:
     dependency: transitive
     description:
@@ -246,7 +260,7 @@ packages:
       name: plugin_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.3"
+    version: "1.1.0-nullsafety.2"
   process:
     dependency: transitive
     description:

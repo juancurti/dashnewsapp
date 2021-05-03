@@ -2,6 +2,7 @@ import 'package:dashnews/data/RequestHandler.dart';
 import 'package:dashnews/data/ThemeHandler.dart';
 import 'package:dashnews/data/controller.dart';
 import 'package:dashnews/views/HomeScreen.dart';
+import 'package:dashnews/views/WebViewScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -100,147 +101,156 @@ class _MainScreenState extends State<MainScreen> {
         DateTime.fromMillisecondsSinceEpoch(_parsedTS.toInt() * 1000);
     String _created =
         '${RequestHandler.getMonth(value: _dateTime.month)} ${_dateTime.day} ${_dateTime.hour}:${_dateTime.minute}';
-    return Container(
-      width: MediaQuery.of(context).size.width - 40,
-      height: 100,
-      margin: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          item['thumbnail'].toString().contains('http')
-              ? Container(
-                  height: 100,
-                  width: (MediaQuery.of(context).size.width - 40) * 0.3,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: NetworkImage(item['thumbnail'])),
-                  ))
-              : SizedBox(),
-          item['thumbnail_url'].toString().contains('http')
-              ? Container(
-                  height: 100,
-                  width: (MediaQuery.of(context).size.width - 40) * 0.3,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: NetworkImage(item['thumbnail_url'])),
-                  ))
-              : SizedBox(),
-          !item['thumbnail'].toString().contains('http') &&
-                  !item['thumbnail_url'].toString().contains('http')
-              ? Container(
-                  height: 100,
-                  width: (MediaQuery.of(context).size.width - 40) * 0.3,
-                  decoration: BoxDecoration(
-                    color: Color.fromRGBO(255, 255, 255, 1),
-                    image: DecorationImage(
-                        fit: BoxFit.fitWidth,
-                        image: NetworkImage(
-                            'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Reddit_logo.svg/2560px-Reddit_logo.svg.png')),
-                  ))
-              : SizedBox(),
-          Container(
-            height: 100,
-            width: ((MediaQuery.of(context).size.width - 40) * 0.7) - 2,
-            color: ThemeHandler.getBottomBarColor(
-                dark: appController.darkMode.value),
-            child: Stack(
-              children: [
-                Positioned(
-                  top: 10,
-                  left: 10,
-                  child: Container(
-                    width:
-                        (((MediaQuery.of(context).size.width - 40) * 0.7) - 62),
-                    child: Text(
-                      item['title'],
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: ThemeHandler.getTextColor(
-                            dark: appController.darkMode.value),
+    return InkWell(
+        onTap: () {
+          Get.to(WebViewScreen(
+            item: item,
+          ));
+        },
+        child: Container(
+          width: MediaQuery.of(context).size.width - 40,
+          height: 100,
+          margin: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              item['thumbnail'].toString().contains('http')
+                  ? Container(
+                      height: 100,
+                      width: (MediaQuery.of(context).size.width - 40) * 0.3,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: NetworkImage(item['thumbnail'])),
+                      ))
+                  : SizedBox(),
+              item['thumbnail_url'].toString().contains('http')
+                  ? Container(
+                      height: 100,
+                      width: (MediaQuery.of(context).size.width - 40) * 0.3,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: NetworkImage(item['thumbnail_url'])),
+                      ))
+                  : SizedBox(),
+              !item['thumbnail'].toString().contains('http') &&
+                      !item['thumbnail_url'].toString().contains('http')
+                  ? Container(
+                      height: 100,
+                      width: (MediaQuery.of(context).size.width - 40) * 0.3,
+                      decoration: BoxDecoration(
+                        color: Color.fromRGBO(255, 255, 255, 1),
+                        image: DecorationImage(
+                            fit: BoxFit.fitWidth,
+                            image: NetworkImage(
+                                'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Reddit_logo.svg/2560px-Reddit_logo.svg.png')),
+                      ))
+                  : SizedBox(),
+              Container(
+                height: 100,
+                width: ((MediaQuery.of(context).size.width - 40) * 0.7) - 2,
+                color: ThemeHandler.getBottomBarColor(
+                    dark: appController.darkMode.value),
+                child: Stack(
+                  children: [
+                    Positioned(
+                      top: 10,
+                      left: 10,
+                      child: Container(
+                        width:
+                            (((MediaQuery.of(context).size.width - 40) * 0.7) -
+                                62),
+                        child: Text(
+                          item['title'],
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color: ThemeHandler.getTextColor(
+                                dark: appController.darkMode.value),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+                    Positioned(
+                      bottom: 6,
+                      left: 10,
+                      child: Container(
+                          width: (((MediaQuery.of(context).size.width - 40) *
+                                  0.7) -
+                              62),
+                          child: Row(
+                            children: [
+                              Text(
+                                item['subreddit'] != null
+                                    ? 'REDDIT | '
+                                    : 'UNKNOWN | ',
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                  color: ThemeHandler.getTextColor(
+                                          dark: appController.darkMode.value)
+                                      .withAlpha(100),
+                                ),
+                              ),
+                              Text(
+                                _created,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                  color: ThemeHandler.getTextColor(
+                                          dark: appController.darkMode.value)
+                                      .withAlpha(100),
+                                ),
+                              ),
+                            ],
+                          )),
+                    ),
+                    Positioned(
+                        top: 10,
+                        right: 10,
+                        child: Container(
+                          width: 12,
+                          height: 20,
+                          decoration: BoxDecoration(
+                              image: DecorationImage(
+                                  image:
+                                      AssetImage('assets/bookmarks-icon.png'))),
+                        ))
+                  ],
                 ),
-                Positioned(
-                  bottom: 6,
-                  left: 10,
-                  child: Container(
-                      width: (((MediaQuery.of(context).size.width - 40) * 0.7) -
-                          62),
-                      child: Row(
-                        children: [
-                          Text(
-                            item['subreddit'] != null
-                                ? 'REDDIT | '
-                                : 'UNKNOWN | ',
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              color: ThemeHandler.getTextColor(
-                                      dark: appController.darkMode.value)
-                                  .withAlpha(100),
-                            ),
-                          ),
-                          Text(
-                            _created,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              color: ThemeHandler.getTextColor(
-                                      dark: appController.darkMode.value)
-                                  .withAlpha(100),
-                            ),
-                          ),
-                        ],
-                      )),
-                ),
-                Positioned(
-                    top: 10,
-                    right: 10,
-                    child: Container(
-                      width: 12,
-                      height: 20,
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: AssetImage('assets/bookmarks-icon.png'))),
-                    ))
-              ],
-            ),
-          ),
-          item['url'] != null
-              ? Container(
-                  height: 100,
-                  width: 2,
-                  color: appController.seenUrls.value.contains(item['url'])
-                      ? ThemeHandler.getCardBackgroundColor(
-                          dark: appController.darkMode.value)
-                      : ThemeHandler.getNewBarColor(
-                          dark: appController.darkMode.value),
-                )
-              : (item['url_overridden_by_dest'] != null
+              ),
+              item['url'] != null
                   ? Container(
                       height: 100,
                       width: 2,
-                      color: appController.seenUrls.value
-                              .contains(item['url_overridden_by_dest'])
+                      color: appController.seenUrls.value.contains(item['url'])
                           ? ThemeHandler.getCardBackgroundColor(
                               dark: appController.darkMode.value)
                           : ThemeHandler.getNewBarColor(
                               dark: appController.darkMode.value),
                     )
-                  : SizedBox())
-        ],
-      ),
-    );
+                  : (item['url_overridden_by_dest'] != null
+                      ? Container(
+                          height: 100,
+                          width: 2,
+                          color: appController.seenUrls.value
+                                  .contains(item['url_overridden_by_dest'])
+                              ? ThemeHandler.getCardBackgroundColor(
+                                  dark: appController.darkMode.value)
+                              : ThemeHandler.getNewBarColor(
+                                  dark: appController.darkMode.value),
+                        )
+                      : SizedBox())
+            ],
+          ),
+        ));
   }
 
   @override

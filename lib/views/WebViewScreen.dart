@@ -201,6 +201,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
                   child: _loadUrl == null
                       ? SizedBox()
                       : WebView(
+                          javascriptMode: JavascriptMode.unrestricted,
                           initialUrl: _loadUrl,
                         ),
                 )

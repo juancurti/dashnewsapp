@@ -212,17 +212,21 @@ class _MainScreenState extends State<MainScreen> {
                             ],
                           )),
                     ),
-                    Positioned(
-                        top: 10,
-                        right: 10,
-                        child: Container(
-                          width: 12,
-                          height: 20,
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  image:
-                                      AssetImage('assets/bookmarks-icon.png'))),
-                        ))
+                    appController.exIds.value.contains(item['url']) ||
+                            appController.exIds.value
+                                .contains(item['url_overridden_by_dest'])
+                        ? Positioned(
+                            top: 10,
+                            right: 10,
+                            child: Container(
+                              width: 12,
+                              height: 20,
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: AssetImage(
+                                          'assets/bookmarks-icon.png'))),
+                            ))
+                        : SizedBox()
                   ],
                 ),
               ),

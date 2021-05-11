@@ -97,6 +97,29 @@ class _MainScreenState extends State<MainScreen> {
 
   Widget getArticleWidget({Map<String, dynamic> item}) {
     double _parsedTS = double.parse(item['created_utc'].toString());
+
+    bool _showRead = false;
+    if (item['url'] != null) {
+      _showRead = appController.exIds
+          .contains(item['url'].split('m.redd').join('old.redd'));
+    }
+
+    if (item['url_overridden_by_dest'] != null) {
+      _showRead = appController.exIds.contains(
+          item['url_overridden_by_dest'].split('m.redd').join('old.redd'));
+    }
+
+    bool _showSeen = false;
+    if (item['url'] != null) {
+      _showSeen = appController.seenUrls
+          .contains(item['url'].split('old.redd').join('m.redd'));
+    }
+
+    if (item['url_overridden_by_dest'] != null) {
+      _showSeen = appController.seenUrls.contains(
+          item['url_overridden_by_dest'].split('old.redd').join('m.redd'));
+    }
+
     DateTime _dateTime =
         DateTime.fromMillisecondsSinceEpoch(_parsedTS.toInt() * 1000);
     String _created =
@@ -149,7 +172,7 @@ class _MainScreenState extends State<MainScreen> {
                   : SizedBox(),
               Container(
                 height: 100,
-                width: ((MediaQuery.of(context).size.width - 40) * 0.7) - 2,
+                width: ((MediaQuery.of(context).size.width - 40) * 0.7) - 4,
                 color: ThemeHandler.getBottomBarColor(
                     dark: appController.darkMode.value),
                 child: Stack(
@@ -212,9 +235,7 @@ class _MainScreenState extends State<MainScreen> {
                             ],
                           )),
                     ),
-                    appController.exIds.value.contains(item['url']) ||
-                            appController.exIds.value
-                                .contains(item['url_overridden_by_dest'])
+                    _showRead
                         ? Positioned(
                             top: 10,
                             right: 10,
@@ -230,28 +251,14 @@ class _MainScreenState extends State<MainScreen> {
                   ],
                 ),
               ),
-              item['url'] != null
+              _showSeen
                   ? Container(
                       height: 100,
-                      width: 2,
-                      color: appController.seenUrls.value.contains(item['url'])
-                          ? ThemeHandler.getCardBackgroundColor(
-                              dark: appController.darkMode.value)
-                          : ThemeHandler.getNewBarColor(
-                              dark: appController.darkMode.value),
+                      width: 3,
+                      color: ThemeHandler.getNewBarColor(
+                          dark: appController.darkMode.value),
                     )
-                  : (item['url_overridden_by_dest'] != null
-                      ? Container(
-                          height: 100,
-                          width: 2,
-                          color: appController.seenUrls.value
-                                  .contains(item['url_overridden_by_dest'])
-                              ? ThemeHandler.getCardBackgroundColor(
-                                  dark: appController.darkMode.value)
-                              : ThemeHandler.getNewBarColor(
-                                  dark: appController.darkMode.value),
-                        )
-                      : SizedBox())
+                  : SizedBox(),
             ],
           ),
         ));
@@ -501,7 +508,7 @@ class _MainScreenState extends State<MainScreen> {
                     )),
                 Container(
                     width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height - 160,
+                    height: MediaQuery.of(context).size.height - 180,
                     child: Stack(
                       children: [
                         ListView(

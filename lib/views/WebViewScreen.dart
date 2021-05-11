@@ -34,18 +34,20 @@ class _WebViewScreenState extends State<WebViewScreen> {
         _loadUrl =
             widget.item['url'].toString().replaceAll('old.reddit', 'm.reddit');
       });
+      if (_loadUrl != null) {
+        appController.addSeen(seenUrls: _loadUrl);
+      }
     } else if (widget.item['url_overridden_by_dest'] != null) {
       setState(() {
         _loadUrl = widget.item['url_overridden_by_dest']
             .toString()
             .replaceAll('old.reddit', 'm.reddit');
       });
+      if (_loadUrl != null) {
+        appController.addSeen(seenUrls: _loadUrl);
+      }
     } else {
       Get.back();
-    }
-
-    if (_loadUrl != null) {
-      appController.addSeen(seenUrls: _loadUrl);
     }
   }
 

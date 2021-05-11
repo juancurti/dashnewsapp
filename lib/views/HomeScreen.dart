@@ -105,6 +105,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             )),
-        body: _children[currentIndex]);
+        body: SafeArea(child: _children[currentIndex]));
   }
 }

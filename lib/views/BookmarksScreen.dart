@@ -19,6 +19,7 @@ class _MainScreenState extends State<BookmarksScreen> {
   List<dynamic> _originalList = [];
   List<dynamic> _filteredList = [];
   bool showSearch = false;
+  bool loaded = false;
 
   @override
   void initState() {
@@ -41,6 +42,7 @@ class _MainScreenState extends State<BookmarksScreen> {
       this.setState(() {
         _filteredList = _new;
         _originalList = _new;
+        loaded = true;
       });
     }, onError: (err) {
       print(err);
@@ -229,153 +231,171 @@ class _MainScreenState extends State<BookmarksScreen> {
           body: Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 80,
-                    decoration: BoxDecoration(
-                      color: ThemeHandler.getTopBarColor(
-                          dark: appController.darkMode.value),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withAlpha(100),
-                          blurRadius: 20.0,
-                          offset: new Offset(0.0, 5.0),
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      children: [
-                        SizedBox(width: 20),
-                        Container(
-                          width: MediaQuery.of(context).size.width - 40 - 50,
-                          child: Text(
-                            'Bookmarks',
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              color: Colors.white,
-                              fontSize: 22,
-                            ),
+            child: !this.loaded
+                ? Center(
+                    child: Container(
+                        width: 40,
+                        height: 40,
+                        child: CircularProgressIndicator(
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(Colors.blue),
+                        )))
+                : Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: 80,
+                          decoration: BoxDecoration(
+                            color: ThemeHandler.getTopBarColor(
+                                dark: appController.darkMode.value),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withAlpha(100),
+                                blurRadius: 20.0,
+                                offset: new Offset(0.0, 5.0),
+                              ),
+                            ],
                           ),
-                        ),
-                        InkWell(
-                          onTap: () {
-                            this.setState(() {
-                              showSearch = !showSearch;
-                            });
-                          },
-                          child: Container(
-                            height: 25,
-                            width: 25,
-                            decoration: BoxDecoration(
-                                image: DecorationImage(
-                                    image:
-                                        AssetImage('assets/search-icon.png'))),
-                          ),
-                        ),
-                      ],
-                    )),
-                Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height - 160,
-                    child: Stack(
-                      children: [
-                        ListView(
-                          children: [
-                            AnimatedContainer(
-                              duration: Duration(milliseconds: 500),
-                              curve: Curves.easeOut,
-                              width: 2,
-                              height: showSearch ? 60 : 1,
-                            ),
-                            Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: this._filteredList.length == 0
-                                    ? [SizedBox()]
-                                    : this
-                                        ._filteredList
-                                        .map((e) =>
-                                            this.getArticleWidget(item: e))
-                                        .toList())
-                          ],
-                        ),
-                        showSearch
-                            ? Positioned(
-                                top: 0,
-                                left: 0,
-                                child: Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  height: 50,
-                                  color: ThemeHandler.getDropdownColor(
-                                      dark: appController.darkMode.value),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Container(
-                                        width:
-                                            (MediaQuery.of(context).size.width *
-                                                    0.8) -
-                                                60,
-                                        color: ThemeHandler.getDropdownColor(
-                                            dark: appController.darkMode.value),
-                                        child: TextField(
-                                          controller: searchController,
-                                          onSubmitted: (str) {
-                                            this.doSearch();
-                                          },
-                                          style: TextStyle(
-                                              color: ThemeHandler
-                                                  .getDropdownTextColor(
-                                                      dark: appController
-                                                          .darkMode.value)),
-                                          decoration: InputDecoration.collapsed(
-                                              hintText: 'e.g: Venezuela',
-                                              hintStyle: TextStyle(
-                                                  color: ThemeHandler
-                                                      .getDropdownTextColor(
-                                                          dark: appController
-                                                              .darkMode
-                                                              .value))),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      InkWell(
-                                          onTap: () {
-                                            this.doSearch();
-                                          },
-                                          child: Container(
-                                              height: 30,
-                                              width: 30,
-                                              decoration: BoxDecoration(
-                                                  color: Color.fromRGBO(
-                                                      0, 116, 187, 1),
-                                                  borderRadius:
-                                                      BorderRadius.circular(6)),
-                                              child: Center(
-                                                child: Container(
-                                                    width: 20,
-                                                    height: 20,
-                                                    decoration: BoxDecoration(
-                                                        image: DecorationImage(
-                                                            image: AssetImage(
-                                                                'assets/search-icon.png')))),
-                                              )))
-                                    ],
+                          child: Row(
+                            children: [
+                              SizedBox(width: 20),
+                              Container(
+                                width:
+                                    MediaQuery.of(context).size.width - 40 - 50,
+                                child: Text(
+                                  'Bookmarks',
+                                  style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    color: Colors.white,
+                                    fontSize: 22,
                                   ),
                                 ),
-                              )
-                            : SizedBox()
-                      ],
-                    ))
-              ],
-            ),
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  this.setState(() {
+                                    showSearch = !showSearch;
+                                  });
+                                },
+                                child: Container(
+                                  height: 25,
+                                  width: 25,
+                                  decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                          image: AssetImage(
+                                              'assets/search-icon.png'))),
+                                ),
+                              ),
+                            ],
+                          )),
+                      Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height - 160,
+                          child: Stack(
+                            children: [
+                              ListView(
+                                children: [
+                                  AnimatedContainer(
+                                    duration: Duration(milliseconds: 500),
+                                    curve: Curves.easeOut,
+                                    width: 2,
+                                    height: showSearch ? 60 : 1,
+                                  ),
+                                  Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: this._filteredList.length == 0
+                                          ? [SizedBox()]
+                                          : this
+                                              ._filteredList
+                                              .map((e) => this
+                                                  .getArticleWidget(item: e))
+                                              .toList())
+                                ],
+                              ),
+                              showSearch
+                                  ? Positioned(
+                                      top: 0,
+                                      left: 0,
+                                      child: Container(
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        height: 50,
+                                        color: ThemeHandler.getDropdownColor(
+                                            dark: appController.darkMode.value),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Container(
+                                              width: (MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.8) -
+                                                  60,
+                                              color:
+                                                  ThemeHandler.getDropdownColor(
+                                                      dark: appController
+                                                          .darkMode.value),
+                                              child: TextField(
+                                                controller: searchController,
+                                                onSubmitted: (str) {
+                                                  this.doSearch();
+                                                },
+                                                style: TextStyle(
+                                                    color: ThemeHandler
+                                                        .getDropdownTextColor(
+                                                            dark: appController
+                                                                .darkMode
+                                                                .value)),
+                                                decoration: InputDecoration.collapsed(
+                                                    hintText: 'e.g: Venezuela',
+                                                    hintStyle: TextStyle(
+                                                        color: ThemeHandler
+                                                            .getDropdownTextColor(
+                                                                dark: appController
+                                                                    .darkMode
+                                                                    .value))),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                            InkWell(
+                                                onTap: () {
+                                                  this.doSearch();
+                                                },
+                                                child: Container(
+                                                    height: 30,
+                                                    width: 30,
+                                                    decoration: BoxDecoration(
+                                                        color: Color.fromRGBO(
+                                                            0, 116, 187, 1),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(6)),
+                                                    child: Center(
+                                                      child: Container(
+                                                          width: 20,
+                                                          height: 20,
+                                                          decoration: BoxDecoration(
+                                                              image: DecorationImage(
+                                                                  image: AssetImage(
+                                                                      'assets/search-icon.png')))),
+                                                    )))
+                                          ],
+                                        ),
+                                      ),
+                                    )
+                                  : SizedBox()
+                            ],
+                          ))
+                    ],
+                  ),
           ),
         ));
   }

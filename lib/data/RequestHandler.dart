@@ -34,6 +34,92 @@ class RequestHandler {
     }
   }
 
+  static List<dynamic> getLearningPosts() {
+    return [
+      {
+        'title': 'Masternodes',
+        'asset': 'assets/masternodes.png',
+        'last': '13th May 2020',
+        'articles': [
+          {
+            'title': 'Dash.org: Masternodes',
+            'url': 'https://www.dash.org/masternodes/'
+          },
+          {
+            'title': 'Understanding Masternodes',
+            'url':
+                'https://docs.dash.org/en/stable/masternodes/understanding.html'
+          }
+        ]
+      },
+      {
+        'title': 'Governance',
+        'asset': 'assets/governance.png',
+        'last': '13th May 2020',
+        'articles': [
+          {
+            'title': 'Understanding Governance',
+            'url':
+                'https://docs.dash.org/en/stable/governance/understanding.html'
+          },
+          {
+            'title': 'Using Dash Governance',
+            'url':
+                'https://aywa-platform-docs.readthedocs.io/en/latest/governance/using.html'
+          }
+        ]
+      },
+      {
+        'title': 'Dash Mining',
+        'asset': 'assets/dashmining.png',
+        'last': '13th May 2020',
+        'articles': []
+      },
+      {
+        'title': 'Decentralized Apps',
+        'asset': 'assets/dapps.png',
+        'last': '13th May 2020',
+        'articles': []
+      },
+      {
+        'title': 'Dash Platform',
+        'asset': 'assets/dashplat.png',
+        'last': '13th May 2020',
+        'articles': []
+      },
+      {
+        'title': 'Dash Incubator',
+        'asset': 'assets/dashincub.png',
+        'last': '13th May 2020',
+        'articles': []
+      },
+      {
+        'title': 'Trading Dash',
+        'asset': 'assets/traddash.png',
+        'last': '13th May 2020',
+        'articles': []
+      },
+      {
+        'title': 'Dash Features',
+        'asset': 'assets/masternodes.png',
+        'last': '13th May 2020',
+        'articles': []
+      },
+      {
+        'title': 'Wallet Options',
+        'asset': 'assets/masternodes.png',
+        'last': '13th May 2020',
+        'articles': []
+      },
+      {
+        'title': 'Safety',
+        'asset': 'assets/masternodes.png',
+        'last': '13th May 2020',
+        'articles': []
+      },
+    ];
+  }
+
   static Future<List<Map<String, dynamic>>> getNewPosts(
       {fromSubreddit: String}) async {
     return http

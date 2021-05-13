@@ -16,88 +16,7 @@ class ArticlesScreen extends StatefulWidget {
 class _MainScreenState extends State<ArticlesScreen> {
   final ControllerSession appController = Get.find();
   TextEditingController searchController = TextEditingController();
-  List<dynamic> _originalList = [
-    {
-      'title': 'Masternodes',
-      'asset': 'assets/masternodes.png',
-      'last': '13th May 2020',
-      'articles': [
-        {
-          'title': 'Dash.org: Masternodes',
-          'url': 'https://www.dash.org/masternodes/'
-        },
-        {
-          'title': 'Understanding Masternodes',
-          'url':
-              'https://docs.dash.org/en/stable/masternodes/understanding.html'
-        }
-      ]
-    },
-    {
-      'title': 'Governance',
-      'asset': 'assets/governance.png',
-      'last': '13th May 2020',
-      'articles': [
-        {
-          'title': 'Understanding Governance',
-          'url': 'https://docs.dash.org/en/stable/governance/understanding.html'
-        },
-        {
-          'title': 'Using Dash Governance',
-          'url':
-              'https://aywa-platform-docs.readthedocs.io/en/latest/governance/using.html'
-        }
-      ]
-    },
-    {
-      'title': 'Dash Mining',
-      'asset': 'assets/dashmining.png',
-      'last': '13th May 2020',
-      'articles': []
-    },
-    {
-      'title': 'Decentralized Apps',
-      'asset': 'assets/dapps.png',
-      'last': '13th May 2020',
-      'articles': []
-    },
-    {
-      'title': 'Dash Platform',
-      'asset': 'assets/dashplat.png',
-      'last': '13th May 2020',
-      'articles': []
-    },
-    {
-      'title': 'Dash Incubator',
-      'asset': 'assets/dashincub.png',
-      'last': '13th May 2020',
-      'articles': []
-    },
-    {
-      'title': 'Trading Dash',
-      'asset': 'assets/traddash.png',
-      'last': '13th May 2020',
-      'articles': []
-    },
-    {
-      'title': 'Dash Features',
-      'asset': 'assets/masternodes.png',
-      'last': '13th May 2020',
-      'articles': []
-    },
-    {
-      'title': 'Wallet Options',
-      'asset': 'assets/masternodes.png',
-      'last': '13th May 2020',
-      'articles': []
-    },
-    {
-      'title': 'Safety',
-      'asset': 'assets/masternodes.png',
-      'last': '13th May 2020',
-      'articles': []
-    },
-  ];
+  List<dynamic> _originalList = RequestHandler.getLearningPosts();
   List<dynamic> _filteredList = [];
   bool showSearch = false;
   int indexSelected;
@@ -233,7 +152,12 @@ class _MainScreenState extends State<ArticlesScreen> {
         width: MediaQuery.of(context).size.width * 0.6,
         child: Center(
           child: InkWell(
-            child: Text(thisItem['title']),
+            child: Text(
+              thisItem['title'],
+              style: TextStyle(
+                  color: ThemeHandler.getTextColor(
+                      dark: appController.darkMode.value)),
+            ),
             onTap: () {
               Get.to(WebViewScreen(
                 item: thisItem,

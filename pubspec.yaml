@@ -45,7 +45,7 @@ dev_dependencies:
 # following page: https://dart.dev/tools/pub/pubspec
 
 flutter_icons:
-  image_path: 'assets/icon.png'
+  image_path: 'assets/icondash.png'
   android: true
   ios: true
 # The following section is specific to Flutter.

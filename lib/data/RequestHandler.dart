@@ -49,6 +49,10 @@ class RequestHandler {
             'title': 'Understanding Masternodes',
             'url':
                 'https://docs.dash.org/en/stable/masternodes/understanding.html'
+          },
+          {
+            'title': 'Dash Masternode Tool',
+            'url': 'https://github.com/Bertrand256/dash-masternode-tool'
           }
         ]
       },

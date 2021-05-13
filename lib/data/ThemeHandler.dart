@@ -13,6 +13,18 @@ class ThemeHandler {
         : Color.fromRGBO(255, 255, 255, 1);
   }
 
+  static Color getOnbButton({bool dark}) {
+    return dark
+        ? Color.fromRGBO(242, 242, 242, 0)
+        : Color.fromRGBO(242, 242, 242, 1);
+  }
+
+  static Color getOnbButtonB({bool dark}) {
+    return dark
+        ? Color.fromRGBO(242, 242, 242, 0)
+        : Color.fromRGBO(0, 141, 228, 1);
+  }
+
   static Color getTextColor({bool dark}) {
     return dark
         ? Color.fromRGBO(242, 242, 242, 1)

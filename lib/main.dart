@@ -27,8 +27,6 @@ class MyApp extends StatelessWidget {
           primaryColor: Colors.orange,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        home: HomeScreen(
-          currentIndex: 0,
-        ));
+        home: SplashScreen());
   }
 }

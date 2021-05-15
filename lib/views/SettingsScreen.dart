@@ -84,31 +84,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 children: [
                                   Row(
                                     children: [
-                                      Container(
-                                        width: 20,
-                                        height: 20,
-                                        decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                                image: AssetImage(
-                                                    'assets/notif-icon.png'))),
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      Text('Notifications',
-                                          style: TextStyle(
-                                              fontSize: 18,
-                                              color: ThemeHandler.getTextColor(
-                                                  dark: appController
-                                                      .darkMode.value),
-                                              fontWeight: FontWeight.w500))
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 12,
-                                  ),
-                                  Row(
-                                    children: [
                                       FlutterSwitch(
                                         activeColor:
                                             Color.fromRGBO(0, 144, 228, 1),

@@ -16,6 +16,7 @@ class BookmarksScreen extends StatefulWidget {
 class _MainScreenState extends State<BookmarksScreen> {
   final ControllerSession appController = Get.find();
   TextEditingController searchController = TextEditingController();
+  FocusNode searchFocus = FocusNode();
   List<dynamic> _originalList = [];
   List<dynamic> _filteredList = [];
   bool showSearch = false;
@@ -310,6 +311,9 @@ class _MainScreenState extends State<BookmarksScreen> {
                                   this.setState(() {
                                     showSearch = !showSearch;
                                   });
+                                        if(showSearch) {
+                                          this.searchFocus.requestFocus();
+                                        }
                                 },
                                 child: Container(
                                   height: 25,
@@ -324,7 +328,7 @@ class _MainScreenState extends State<BookmarksScreen> {
                           )),
                               showSearch
                                   ? Positioned(
-                                      top: 0,
+                                      top: 60,
                                       left: 0,
                                       child: Container(
                                         width:
@@ -342,7 +346,7 @@ class _MainScreenState extends State<BookmarksScreen> {
                                               width: (MediaQuery.of(context)
                                                           .size
                                                           .width *
-                                                      0.8) -
+                                                      0.9) -
                                                   60,
                                               color:
                                                   ThemeHandler.getDropdownColor(
@@ -350,7 +354,12 @@ class _MainScreenState extends State<BookmarksScreen> {
                                                           .darkMode.value),
                                               child: TextField(
                                                 controller: searchController,
+                                                focusNode: this.searchFocus,
+                                                autocorrect: false,
                                                 onSubmitted: (str) {
+                                                  this.doSearch();
+                                                },
+                                                onEditingComplete: () {
                                                   this.doSearch();
                                                 },
                                                 style: TextStyle(
@@ -376,24 +385,18 @@ class _MainScreenState extends State<BookmarksScreen> {
                                                 onTap: () {
                                                   this.doSearch();
                                                 },
+                                          child: Container(
+                                              width: 30,
+                                              child: Center(
                                                 child: Container(
-                                                    height: 30,
-                                                    width: 30,
-                                                    decoration: BoxDecoration(
-                                                        color: Color.fromRGBO(
-                                                            0, 116, 187, 1),
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(6)),
-                                                    child: Center(
-                                                      child: Container(
-                                                          width: 20,
-                                                          height: 20,
-                                                          decoration: BoxDecoration(
-                                                              image: DecorationImage(
-                                                                  image: AssetImage(
-                                                                      'assets/search-icon.png')))),
-                                                    )))
+                                                    width: 20,
+                                                    child: Center(child: Icon(
+                                                      Icons.search,
+                                                      color: Color.fromRGBO(127, 140, 152, 1),
+                                                      size: 28
+                                                    )),
+                                                ),
+                                              )))
                                           ],
                                         ),
                                       ),

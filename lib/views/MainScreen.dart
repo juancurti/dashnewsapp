@@ -16,6 +16,7 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   final ControllerSession appController = Get.find();
   TextEditingController searchController = TextEditingController();
+  FocusNode searchFocus = FocusNode();
   List<dynamic> _originalList = [];
   List<dynamic> _filteredList = [];
   bool showSearch = false;
@@ -461,6 +462,9 @@ class _MainScreenState extends State<MainScreen> {
                                         this.setState(() {
                                           showSearch = !showSearch;
                                         });
+                                        if(showSearch) {
+                                          this.searchFocus.requestFocus();
+                                        }
                                       },
                                       child: Container(
                                         height: 25,
@@ -557,7 +561,7 @@ class _MainScreenState extends State<MainScreen> {
                           )),
                               showSearch
                                   ? Positioned(
-                                      top: 0,
+                                      top: 60,
                                       left: 0,
                                       child: Container(
                                         width:
@@ -575,7 +579,7 @@ class _MainScreenState extends State<MainScreen> {
                                               width: (MediaQuery.of(context)
                                                           .size
                                                           .width *
-                                                      0.8) -
+                                                      0.9) -
                                                   60,
                                               color:
                                                   ThemeHandler.getDropdownColor(
@@ -583,6 +587,11 @@ class _MainScreenState extends State<MainScreen> {
                                                           .darkMode.value),
                                               child: TextField(
                                                 controller: searchController,
+                                                focusNode: searchFocus,
+                                                autocorrect: false,
+                                                onEditingComplete: () {
+                                                  this.doSearch();
+                                                },
                                                 onSubmitted: (str) {
                                                   this.doSearch();
                                                 },
@@ -609,24 +618,18 @@ class _MainScreenState extends State<MainScreen> {
                                                 onTap: () {
                                                   this.doSearch();
                                                 },
+                                          child: Container(
+                                              width: 30,
+                                              child: Center(
                                                 child: Container(
-                                                    height: 30,
-                                                    width: 30,
-                                                    decoration: BoxDecoration(
-                                                        color: Color.fromRGBO(
-                                                            0, 116, 187, 1),
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(6)),
-                                                    child: Center(
-                                                      child: Container(
-                                                          width: 20,
-                                                          height: 20,
-                                                          decoration: BoxDecoration(
-                                                              image: DecorationImage(
-                                                                  image: AssetImage(
-                                                                      'assets/search-icon.png')))),
-                                                    )))
+                                                    width: 20,
+                                                    child: Center(child: Icon(
+                                                      Icons.search,
+                                                      color: Color.fromRGBO(127, 140, 152, 1),
+                                                      size: 28
+                                                    )),
+                                                ),
+                                              )))
                                           ],
                                         ),
                                       ),

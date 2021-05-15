@@ -16,6 +16,7 @@ class ArticlesScreen extends StatefulWidget {
 class _MainScreenState extends State<ArticlesScreen> {
   final ControllerSession appController = Get.find();
   TextEditingController searchController = TextEditingController();
+  FocusNode searchFocus = FocusNode();
   List<dynamic> _originalList = RequestHandler.getLearningPosts();
   List<dynamic> _filteredList = [];
   bool showSearch = false;
@@ -239,6 +240,9 @@ class _MainScreenState extends State<ArticlesScreen> {
                             this.setState(() {
                               showSearch = !showSearch;
                             });
+                                        if(showSearch) {
+                                          this.searchFocus.requestFocus();
+                                        }
                           },
                           child: Container(
                             height: 25,
@@ -253,7 +257,7 @@ class _MainScreenState extends State<ArticlesScreen> {
                     )),
                         showSearch
                             ? Positioned(
-                                top: 0,
+                                top: 65,
                                 left: 0,
                                 child: Container(
                                   width: MediaQuery.of(context).size.width,
@@ -268,12 +272,14 @@ class _MainScreenState extends State<ArticlesScreen> {
                                       Container(
                                         width:
                                             (MediaQuery.of(context).size.width *
-                                                    0.8) -
+                                                    0.9) -
                                                 60,
                                         color: ThemeHandler.getDropdownColor(
                                             dark: appController.darkMode.value),
                                         child: TextField(
                                           controller: searchController,
+                                          focusNode: this.searchFocus,
+                                                autocorrect: false,
                                           onSubmitted: (str) {
                                             this.doSearch();
                                           },
@@ -300,21 +306,16 @@ class _MainScreenState extends State<ArticlesScreen> {
                                             this.doSearch();
                                           },
                                           child: Container(
-                                              height: 30,
                                               width: 30,
-                                              decoration: BoxDecoration(
-                                                  color: Color.fromRGBO(
-                                                      0, 116, 187, 1),
-                                                  borderRadius:
-                                                      BorderRadius.circular(6)),
                                               child: Center(
                                                 child: Container(
                                                     width: 20,
-                                                    height: 20,
-                                                    decoration: BoxDecoration(
-                                                        image: DecorationImage(
-                                                            image: AssetImage(
-                                                                'assets/search-icon.png')))),
+                                                    child: Center(child: Icon(
+                                                      Icons.search,
+                                                      color: Color.fromRGBO(127, 140, 152, 1),
+                                                      size: 28
+                                                    )),
+                                                ),
                                               )))
                                     ],
                                   ),

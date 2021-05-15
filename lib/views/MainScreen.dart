@@ -111,14 +111,14 @@ class _MainScreenState extends State<MainScreen> {
           item['url_overridden_by_dest'].split('m.redd').join('old.redd'));
     }
 
-    bool _showSeen = false;
+    bool _showSeen = true;
     if (item['url'] != null) {
-      _showSeen = appController.seenUrls
+      _showSeen = !appController.seenUrls
           .contains(item['url'].split('old.redd').join('m.redd'));
     }
 
     if (item['url_overridden_by_dest'] != null) {
-      _showSeen = appController.seenUrls.contains(
+      _showSeen = !appController.seenUrls.contains(
           item['url_overridden_by_dest'].split('old.redd').join('m.redd'));
     }
 
@@ -287,9 +287,40 @@ class _MainScreenState extends State<MainScreen> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
+                      
                       Container(
                           width: MediaQuery.of(context).size.width,
-                          height: 80,
+                          height: MediaQuery.of(context).size.height - 144,
+                          child: Stack(
+                            children: [
+                              Container(
+                                padding: EdgeInsets.only(
+                                  top: 64
+                                ),
+                                child: ListView(
+                                children: [
+                                  AnimatedContainer(
+                                    duration: Duration(milliseconds: 500),
+                                    curve: Curves.easeOut,
+                                    width: 2,
+                                    height: showSearch ? 60 : 1,
+                                  ),
+                                  Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: this._filteredList.length == 0
+                                          ? [SizedBox()]
+                                          : this
+                                              ._filteredList
+                                              .map((e) => this
+                                                  .getArticleWidget(item: e))
+                                              .toList())
+                                ],
+                              ),
+                              ),
+                              Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: 60,
                           decoration: BoxDecoration(
                             color: ThemeHandler.getTopBarColor(
                                 dark: appController.darkMode.value),
@@ -303,7 +334,7 @@ class _MainScreenState extends State<MainScreen> {
                           ),
                           child: Row(
                             children: [
-                              SizedBox(width: 20),
+                              SizedBox(width: 30),
                               Container(
                                 width: MediaQuery.of(context).size.width -
                                     40 -
@@ -524,31 +555,6 @@ class _MainScreenState extends State<MainScreen> {
                               )
                             ],
                           )),
-                      Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height - 180,
-                          child: Stack(
-                            children: [
-                              ListView(
-                                children: [
-                                  AnimatedContainer(
-                                    duration: Duration(milliseconds: 500),
-                                    curve: Curves.easeOut,
-                                    width: 2,
-                                    height: showSearch ? 60 : 1,
-                                  ),
-                                  Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: this._filteredList.length == 0
-                                          ? [SizedBox()]
-                                          : this
-                                              ._filteredList
-                                              .map((e) => this
-                                                  .getArticleWidget(item: e))
-                                              .toList())
-                                ],
-                              ),
                               showSearch
                                   ? Positioned(
                                       top: 0,

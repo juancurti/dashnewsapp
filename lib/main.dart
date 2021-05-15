@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
+import 'data/ThemeHandler.dart';
 import 'data/controller.dart';
 import 'views/HomeScreen.dart';
 import 'views/SplashScreen.dart';
@@ -21,6 +22,8 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Dash News App',
+        color: ThemeHandler.getBackgroundColor(
+              dark: appController.darkMode.value),
         theme: ThemeData(
           primarySwatch: Colors.yellow,
           fontFamily: 'Poppins',

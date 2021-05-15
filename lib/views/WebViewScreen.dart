@@ -70,17 +70,18 @@ class _WebViewScreenState extends State<WebViewScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Color.fromRGBO(19, 20, 21, 1),
-        body: SafeArea(
-          child: Container(
+        body: Container(
             width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
                     width: MediaQuery.of(context).size.width,
-                    height: 80,
+                    height: 100,
+                    padding: EdgeInsets.only(
+                      top: 40
+                    ),
                     decoration: BoxDecoration(
                       color: ThemeHandler.getTopBarColor(
                           dark: appController.darkMode.value),
@@ -96,7 +97,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
                       children: [
                         SizedBox(width: 20),
                         Container(
-                            width: MediaQuery.of(context).size.width - 40 - 50,
+                            width: MediaQuery.of(context).size.width - 110,
                             child: Row(
                               children: [
                                 InkWell(
@@ -117,81 +118,37 @@ class _WebViewScreenState extends State<WebViewScreen> {
                               ],
                             )),
                         Container(
-                          width: 50,
                           height: 60,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              PopupMenuButton<String>(
-                                  child: Container(
-                                    height: 25,
-                                    width: 25,
-                                    decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                            image: AssetImage(
-                                                'assets/options-icon.png'))),
-                                  ),
-                                  color: ThemeHandler.getDropdownColor(
-                                      dark: appController.darkMode.value),
-                                  onSelected: (val) {
-                                    if (val == 'share') {
+                              InkWell(
+                                onTap: (){
+                                  this.addBookmark();
+                                },
+                                child: Container(
+                                  width: 40,
+                                              child: Center(child: Icon(
+                                                Icons.bookmark_border,
+                                                color: Colors.white,
+                                                size: 32,
+                                              ),)
+                                            ),
+                              ),
+                              InkWell(
+                                onTap: (){
                                       this.share();
-                                    } else if (val == 'addbookmark') {
-                                      this.addBookmark();
-                                    }
-                                  },
-                                  itemBuilder: (BuildContext context) {
-                                    return [
-                                      PopupMenuItem(
-                                        child: Row(
-                                          children: [
-                                            Container(
-                                              width: 20,
-                                              height: 20,
-                                              decoration: BoxDecoration(
-                                                  image: DecorationImage(
-                                                      image: AssetImage(
-                                                          'assets/bookmarks-icon.png'))),
+                                },
+                                child: Container(
+                                  width: 40,
+                                              child: Center(child: Icon(
+                                                Icons.share,
+                                                color: Colors.white,
+                                                size: 32,
+                                              ),)
                                             ),
-                                            SizedBox(width: 10),
-                                            Text(
-                                              'Add Bookmark',
-                                              style: TextStyle(
-                                                  color: ThemeHandler
-                                                      .getDropdownTextColor(
-                                                          dark: appController
-                                                              .darkMode.value)),
-                                            )
-                                          ],
-                                        ),
-                                        value: 'addbookmark',
-                                      ),
-                                      PopupMenuItem(
-                                        child: Row(
-                                          children: [
-                                            Container(
-                                              width: 20,
-                                              height: 20,
-                                              decoration: BoxDecoration(
-                                                  image: DecorationImage(
-                                                      image: AssetImage(
-                                                          'assets/new-share-icon.png'))),
-                                            ),
-                                            SizedBox(width: 10),
-                                            Text(
-                                              'Share',
-                                              style: TextStyle(
-                                                  color: ThemeHandler
-                                                      .getDropdownTextColor(
-                                                          dark: appController
-                                                              .darkMode.value)),
-                                            )
-                                          ],
-                                        ),
-                                        value: 'share',
-                                      )
-                                    ];
-                                  })
+                              ),
+                              
                             ],
                           ),
                         )
@@ -199,7 +156,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
                     )),
                 Container(
                   width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height - 80,
+                  height: MediaQuery.of(context).size.height - 100,
                   child: _loadUrl == null
                       ? SizedBox()
                       : WebView(
@@ -209,7 +166,6 @@ class _WebViewScreenState extends State<WebViewScreen> {
                 )
               ],
             ),
-          ),
         ));
   }
 }

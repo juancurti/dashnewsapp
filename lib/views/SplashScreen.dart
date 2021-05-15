@@ -266,7 +266,7 @@ class _SplashScreenState extends State<SplashScreen> {
                                   height: 12,
                                   margin: EdgeInsets.symmetric(horizontal: 4),
                                   decoration: BoxDecoration(
-                                      color: Colors.grey,
+                                      color: Color.fromRGBO(127, 140, 152, 0.4),
                                       borderRadius: BorderRadius.circular(6)),
                                 ))
                           .toList(),

@@ -181,7 +181,34 @@ class _MainScreenState extends State<ArticlesScreen> {
               children: [
                 Container(
                     width: MediaQuery.of(context).size.width,
-                    height: 80,
+                    height: MediaQuery.of(context).size.height - 160,
+                    child: Stack(
+                      children: [
+                        Container(padding: EdgeInsets.only(
+                          top: 65
+                        ),
+                        child: ListView(
+                          children: [
+                            AnimatedContainer(
+                              duration: Duration(milliseconds: 500),
+                              curve: Curves.easeOut,
+                              width: 2,
+                              height: showSearch ? 60 : 1,
+                            ),
+                            Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: this._filteredList.length == 0
+                                    ? [SizedBox()]
+                                    : this
+                                        ._filteredList
+                                        .map((e) =>
+                                            this.getCategoryItem(item: e))
+                                        .toList())
+                          ],
+                        ),),
+                        Container(
+                    width: MediaQuery.of(context).size.width,
+                          height: 60,
                     decoration: BoxDecoration(
                       color: ThemeHandler.getTopBarColor(
                           dark: appController.darkMode.value),
@@ -195,7 +222,7 @@ class _MainScreenState extends State<ArticlesScreen> {
                     ),
                     child: Row(
                       children: [
-                        SizedBox(width: 20),
+                              SizedBox(width: 30),
                         Container(
                           width: MediaQuery.of(context).size.width - 40 - 50,
                           child: Text(
@@ -224,30 +251,6 @@ class _MainScreenState extends State<ArticlesScreen> {
                         ),
                       ],
                     )),
-                Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height - 160,
-                    child: Stack(
-                      children: [
-                        ListView(
-                          children: [
-                            AnimatedContainer(
-                              duration: Duration(milliseconds: 500),
-                              curve: Curves.easeOut,
-                              width: 2,
-                              height: showSearch ? 60 : 1,
-                            ),
-                            Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: this._filteredList.length == 0
-                                    ? [SizedBox()]
-                                    : this
-                                        ._filteredList
-                                        .map((e) =>
-                                            this.getCategoryItem(item: e))
-                                        .toList())
-                          ],
-                        ),
                         showSearch
                             ? Positioned(
                                 top: 0,

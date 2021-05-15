@@ -38,10 +38,17 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        toolbarHeight: 0,
+        shadowColor: Colors.transparent,
+        backgroundColor: ThemeHandler.getTopBarColor(
+                                dark: appController.darkMode.value),
+              brightness: appController.darkMode.value ? Brightness.light : Brightness.dark,
+      ),
         backgroundColor:
-            ThemeHandler.getBackgroundColor(dark: appController.darkMode.value),
+            ThemeHandler.getBackgroundColor(
+              dark: appController.darkMode.value),
         bottomNavigationBar: SizedBox(
-            height: 80,
             child: Obx(
               () => BottomNavigationBar(
                 onTap: (ind) {

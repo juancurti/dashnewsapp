@@ -30,7 +30,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               children: [
                 Container(
                     width: MediaQuery.of(context).size.width,
-                    height: 80,
+                          height: 60,
                     decoration: BoxDecoration(
                       color: ThemeHandler.getTopBarColor(
                           dark: appController.darkMode.value),
@@ -44,7 +44,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                     child: Row(
                       children: [
-                        SizedBox(width: 20),
+                              SizedBox(width: 30),
                         Text(
                           'Account',
                           style: TextStyle(
@@ -55,12 +55,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         ),
                       ],
                     )),
-                SizedBox(
-                  height: 10,
-                ),
                 Container(
                     width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height - 170,
+                    height: MediaQuery.of(context).size.height - 250,
                     child: ListView(
                       children: [
                         SizedBox(height: 20),

@@ -80,8 +80,8 @@ class _WebViewScreenState extends State<WebViewScreen> {
               children: [
                 Container(
                     width: MediaQuery.of(context).size.width,
-                    height: 100,
-                    padding: EdgeInsets.only(top: 40),
+                    height: 60,
+                    // padding: EdgeInsets.only(top: 40),
                     decoration: BoxDecoration(
                       color: ThemeHandler.getTopBarColor(
                           dark: appController.darkMode.value),
@@ -159,7 +159,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
                     )),
                 Container(
                   width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height - 100,
+                  height: MediaQuery.of(context).size.height - 60,
                   child: _loadUrl == null
                       ? SizedBox()
                       : WebView(

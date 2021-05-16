@@ -277,11 +277,11 @@ class _MainScreenState extends State<MainScreen> {
                     children: [
                       Container(
                           width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height - 144,
+                          height: MediaQuery.of(context).size.height - 70,
                           child: Stack(
                             children: [
                               Container(
-                                padding: EdgeInsets.only(top: 64),
+                                padding: EdgeInsets.only(top: 62),
                                 child: ListView(
                                   children: [
                                     AnimatedContainer(

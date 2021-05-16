@@ -10,8 +10,9 @@ import 'package:webview_flutter/webview_flutter.dart';
 import 'HomeScreen.dart';
 
 class WebViewScreen extends StatefulWidget {
-  WebViewScreen({Key key, this.item}) : super(key: key);
+  WebViewScreen({Key key, this.item, this.showBookmark}) : super(key: key);
   final dynamic item;
+  final bool showBookmark;
 
   @override
   _WebViewScreenState createState() => _WebViewScreenState();
@@ -70,7 +71,8 @@ class _WebViewScreenState extends State<WebViewScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Color.fromRGBO(19, 20, 21, 1),
-        body: Container(
+        body: SafeArea(
+          child: Container(
             width: MediaQuery.of(context).size.width,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -79,9 +81,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
                 Container(
                     width: MediaQuery.of(context).size.width,
                     height: 100,
-                    padding: EdgeInsets.only(
-                      top: 40
-                    ),
+                    padding: EdgeInsets.only(top: 40),
                     decoration: BoxDecoration(
                       color: ThemeHandler.getTopBarColor(
                           dark: appController.darkMode.value),
@@ -122,33 +122,36 @@ class _WebViewScreenState extends State<WebViewScreen> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
+                              widget.showBookmark
+                                  ? InkWell(
+                                      onTap: () {
+                                        this.addBookmark();
+                                      },
+                                      child: Container(
+                                          width: 40,
+                                          child: Center(
+                                            child: Icon(
+                                              Icons.bookmark_border,
+                                              color: Colors.white,
+                                              size: 32,
+                                            ),
+                                          )),
+                                    )
+                                  : SizedBox(),
                               InkWell(
-                                onTap: (){
-                                  this.addBookmark();
+                                onTap: () {
+                                  this.share();
                                 },
                                 child: Container(
-                                  width: 40,
-                                              child: Center(child: Icon(
-                                                Icons.bookmark_border,
-                                                color: Colors.white,
-                                                size: 32,
-                                              ),)
-                                            ),
+                                    width: 40,
+                                    child: Center(
+                                      child: Icon(
+                                        Icons.share,
+                                        color: Colors.white,
+                                        size: 32,
+                                      ),
+                                    )),
                               ),
-                              InkWell(
-                                onTap: (){
-                                      this.share();
-                                },
-                                child: Container(
-                                  width: 40,
-                                              child: Center(child: Icon(
-                                                Icons.share,
-                                                color: Colors.white,
-                                                size: 32,
-                                              ),)
-                                            ),
-                              ),
-                              
                             ],
                           ),
                         )
@@ -166,6 +169,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
                 )
               ],
             ),
+          ),
         ));
   }
 }

@@ -131,6 +131,7 @@ class _MainScreenState extends State<MainScreen> {
         onTap: () {
           Get.to(WebViewScreen(
             item: item,
+            showBookmark: true,
           ));
         },
         child: Container(
@@ -210,20 +211,6 @@ class _MainScreenState extends State<MainScreen> {
                           child: Row(
                             children: [
                               Text(
-                                item['subreddit'] != null
-                                    ? 'REDDIT | '
-                                    : 'UNKNOWN | ',
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                  color: ThemeHandler.getTextColor(
-                                          dark: appController.darkMode.value)
-                                      .withAlpha(100),
-                                ),
-                              ),
-                              Text(
                                 _created,
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
@@ -288,277 +275,283 @@ class _MainScreenState extends State<MainScreen> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      
                       Container(
                           width: MediaQuery.of(context).size.width,
                           height: MediaQuery.of(context).size.height - 144,
                           child: Stack(
                             children: [
                               Container(
-                                padding: EdgeInsets.only(
-                                  top: 64
-                                ),
+                                padding: EdgeInsets.only(top: 64),
                                 child: ListView(
-                                children: [
-                                  AnimatedContainer(
-                                    duration: Duration(milliseconds: 500),
-                                    curve: Curves.easeOut,
-                                    width: 2,
-                                    height: showSearch ? 60 : 1,
-                                  ),
-                                  Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: this._filteredList.length == 0
-                                          ? [SizedBox()]
-                                          : this
-                                              ._filteredList
-                                              .map((e) => this
-                                                  .getArticleWidget(item: e))
-                                              .toList())
-                                ],
-                              ),
-                              ),
-                              Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: 60,
-                          decoration: BoxDecoration(
-                            color: ThemeHandler.getTopBarColor(
-                                dark: appController.darkMode.value),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withAlpha(100),
-                                blurRadius: 20.0,
-                                offset: new Offset(0.0, 5.0),
-                              ),
-                            ],
-                          ),
-                          child: Row(
-                            children: [
-                              SizedBox(width: 30),
-                              Container(
-                                width: MediaQuery.of(context).size.width -
-                                    40 -
-                                    150,
-                                child: Text(
-                                  'Dash News',
-                                  style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    color: Colors.white,
-                                    fontSize: 22,
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                width: 150,
-                                height: 60,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    PopupMenuButton<String>(
-                                        child: Container(
-                                          height: 25,
-                                          width: 25,
-                                          decoration: BoxDecoration(
-                                              image: DecorationImage(
-                                                  image: AssetImage(
-                                                      'assets/filter-icon.png'))),
-                                        ),
-                                        color: ThemeHandler.getDropdownColor(
-                                            dark: appController.darkMode.value),
-                                        onSelected: (val) {
-                                          if (val == 'newest') {
-                                            this.orderByNewest();
-                                          } else if (val == 'popularity') {
-                                            this.orderByPopularity();
-                                          } else if (val == 'bookmarks') {
-                                            this.filterByBookmarks();
-                                          }
-                                        },
-                                        itemBuilder: (BuildContext context) {
-                                          return [
-                                            PopupMenuItem(
-                                              child: Row(
-                                                children: [
-                                                  Container(
-                                                    width: 20,
-                                                    height: 20,
-                                                    decoration: BoxDecoration(
-                                                        image: DecorationImage(
-                                                            image: AssetImage(
-                                                                'assets/newest-icon.png'))),
-                                                  ),
-                                                  SizedBox(width: 10),
-                                                  Text(
-                                                    'Newest',
-                                                    style: TextStyle(
-                                                        color: ThemeHandler
-                                                            .getDropdownTextColor(
-                                                                dark: appController
-                                                                    .darkMode
-                                                                    .value)),
-                                                  )
-                                                ],
-                                              ),
-                                              value: 'newest',
-                                            ),
-                                            PopupMenuItem(
-                                              child: Row(
-                                                children: [
-                                                  Container(
-                                                    width: 20,
-                                                    height: 20,
-                                                    decoration: BoxDecoration(
-                                                        image: DecorationImage(
-                                                            image: AssetImage(
-                                                                'assets/popularity-icon.png'))),
-                                                  ),
-                                                  SizedBox(width: 10),
-                                                  Text(
-                                                    'Popularity',
-                                                    style: TextStyle(
-                                                        color: ThemeHandler
-                                                            .getDropdownTextColor(
-                                                                dark: appController
-                                                                    .darkMode
-                                                                    .value)),
-                                                  )
-                                                ],
-                                              ),
-                                              value: 'popularity',
-                                            ),
-                                            PopupMenuItem(
-                                              child: Row(
-                                                children: [
-                                                  Container(
-                                                    width: 20,
-                                                    height: 20,
-                                                    decoration: BoxDecoration(
-                                                        image: DecorationImage(
-                                                            image: AssetImage(
-                                                                'assets/new-bookmarks-icon.png'))),
-                                                  ),
-                                                  SizedBox(width: 10),
-                                                  Text(
-                                                    'Bookmarks',
-                                                    style: TextStyle(
-                                                        color: ThemeHandler
-                                                            .getDropdownTextColor(
-                                                                dark: appController
-                                                                    .darkMode
-                                                                    .value)),
-                                                  )
-                                                ],
-                                              ),
-                                              value: 'bookmarks',
-                                            ),
-                                          ];
-                                        }),
-                                    SizedBox(
-                                      width: 20,
+                                    AnimatedContainer(
+                                      duration: Duration(milliseconds: 500),
+                                      curve: Curves.easeOut,
+                                      width: 2,
+                                      height: showSearch ? 60 : 1,
                                     ),
-                                    InkWell(
-                                      onTap: () {
-                                        this.setState(() {
-                                          showSearch = !showSearch;
-                                        });
-                                        if(showSearch) {
-                                          this.searchFocus.requestFocus();
-                                        }
-                                      },
-                                      child: Container(
-                                        height: 25,
-                                        width: 25,
-                                        decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                                image: AssetImage(
-                                                    'assets/search-icon.png'))),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    PopupMenuButton<String>(
-                                        child: Container(
-                                          height: 25,
-                                          width: 25,
-                                          decoration: BoxDecoration(
-                                              image: DecorationImage(
-                                                  image: AssetImage(
-                                                      'assets/options-icon.png'))),
-                                        ),
-                                        color: ThemeHandler.getDropdownColor(
-                                            dark: appController.darkMode.value),
-                                        onSelected: (val) {
-                                          if (val == 'markallread') {
-                                            this.markAllRead();
-                                          } else if (val == 'settings') {
-                                            Get.off(
-                                                HomeScreen(
-                                                  currentIndex: 3,
-                                                ),
-                                                preventDuplicates: false);
-                                          }
-                                        },
-                                        itemBuilder: (BuildContext context) {
-                                          return [
-                                            PopupMenuItem(
-                                              child: Row(
-                                                children: [
-                                                  Container(
-                                                    width: 20,
-                                                    height: 20,
-                                                    decoration: BoxDecoration(
-                                                        image: DecorationImage(
-                                                            image: AssetImage(
-                                                                'assets/markasread-icon.png'))),
-                                                  ),
-                                                  SizedBox(width: 10),
-                                                  Text(
-                                                    'Mark All Read',
-                                                    style: TextStyle(
-                                                        color: ThemeHandler
-                                                            .getDropdownTextColor(
-                                                                dark: appController
-                                                                    .darkMode
-                                                                    .value)),
-                                                  )
-                                                ],
-                                              ),
-                                              value: 'markallread',
-                                            ),
-                                            PopupMenuItem(
-                                              child: Row(
-                                                children: [
-                                                  Container(
-                                                    width: 20,
-                                                    height: 20,
-                                                    decoration: BoxDecoration(
-                                                        image: DecorationImage(
-                                                            image: AssetImage(
-                                                                'assets/new-settings-icon.png'))),
-                                                  ),
-                                                  SizedBox(width: 10),
-                                                  Text(
-                                                    'Settings',
-                                                    style: TextStyle(
-                                                        color: ThemeHandler
-                                                            .getDropdownTextColor(
-                                                                dark: appController
-                                                                    .darkMode
-                                                                    .value)),
-                                                  )
-                                                ],
-                                              ),
-                                              value: 'settings',
-                                            )
-                                          ];
-                                        })
+                                    Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: this._filteredList.length == 0
+                                            ? [SizedBox()]
+                                            : this
+                                                ._filteredList
+                                                .map((e) => this
+                                                    .getArticleWidget(item: e))
+                                                .toList())
                                   ],
                                 ),
-                              )
-                            ],
-                          )),
+                              ),
+                              Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  height: 60,
+                                  decoration: BoxDecoration(
+                                    color: ThemeHandler.getTopBarColor(
+                                        dark: appController.darkMode.value),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withAlpha(100),
+                                        blurRadius: 20.0,
+                                        offset: new Offset(0.0, 5.0),
+                                      ),
+                                    ],
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      SizedBox(width: 30),
+                                      Container(
+                                        width:
+                                            MediaQuery.of(context).size.width -
+                                                40 -
+                                                150,
+                                        child: Text(
+                                          'Dash News',
+                                          style: TextStyle(
+                                            fontFamily: 'Poppins',
+                                            color: Colors.white,
+                                            fontSize: 22,
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        width: 150,
+                                        height: 60,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            PopupMenuButton<String>(
+                                                child: Container(
+                                                  height: 25,
+                                                  width: 25,
+                                                  decoration: BoxDecoration(
+                                                      image: DecorationImage(
+                                                          image: AssetImage(
+                                                              'assets/filter-icon.png'))),
+                                                ),
+                                                color: ThemeHandler
+                                                    .getDropdownColor(
+                                                        dark: appController
+                                                            .darkMode.value),
+                                                onSelected: (val) {
+                                                  if (val == 'newest') {
+                                                    this.orderByNewest();
+                                                  } else if (val ==
+                                                      'popularity') {
+                                                    this.orderByPopularity();
+                                                  } else if (val ==
+                                                      'bookmarks') {
+                                                    this.filterByBookmarks();
+                                                  }
+                                                },
+                                                itemBuilder:
+                                                    (BuildContext context) {
+                                                  return [
+                                                    PopupMenuItem(
+                                                      child: Row(
+                                                        children: [
+                                                          Container(
+                                                            width: 20,
+                                                            height: 20,
+                                                            decoration: BoxDecoration(
+                                                                image: DecorationImage(
+                                                                    image: AssetImage(
+                                                                        'assets/newest-icon.png'))),
+                                                          ),
+                                                          SizedBox(width: 10),
+                                                          Text(
+                                                            'Newest',
+                                                            style: TextStyle(
+                                                                color: ThemeHandler.getDropdownTextColor(
+                                                                    dark: appController
+                                                                        .darkMode
+                                                                        .value)),
+                                                          )
+                                                        ],
+                                                      ),
+                                                      value: 'newest',
+                                                    ),
+                                                    PopupMenuItem(
+                                                      child: Row(
+                                                        children: [
+                                                          Container(
+                                                            width: 20,
+                                                            height: 20,
+                                                            decoration: BoxDecoration(
+                                                                image: DecorationImage(
+                                                                    image: AssetImage(
+                                                                        'assets/popularity-icon.png'))),
+                                                          ),
+                                                          SizedBox(width: 10),
+                                                          Text(
+                                                            'Popularity',
+                                                            style: TextStyle(
+                                                                color: ThemeHandler.getDropdownTextColor(
+                                                                    dark: appController
+                                                                        .darkMode
+                                                                        .value)),
+                                                          )
+                                                        ],
+                                                      ),
+                                                      value: 'popularity',
+                                                    ),
+                                                    PopupMenuItem(
+                                                      child: Row(
+                                                        children: [
+                                                          Container(
+                                                            width: 20,
+                                                            height: 20,
+                                                            decoration: BoxDecoration(
+                                                                image: DecorationImage(
+                                                                    image: AssetImage(
+                                                                        'assets/new-bookmarks-icon.png'))),
+                                                          ),
+                                                          SizedBox(width: 10),
+                                                          Text(
+                                                            'Bookmarks',
+                                                            style: TextStyle(
+                                                                color: ThemeHandler.getDropdownTextColor(
+                                                                    dark: appController
+                                                                        .darkMode
+                                                                        .value)),
+                                                          )
+                                                        ],
+                                                      ),
+                                                      value: 'bookmarks',
+                                                    ),
+                                                  ];
+                                                }),
+                                            SizedBox(
+                                              width: 20,
+                                            ),
+                                            InkWell(
+                                              onTap: () {
+                                                this.setState(() {
+                                                  showSearch = !showSearch;
+                                                });
+                                                if (showSearch) {
+                                                  this
+                                                      .searchFocus
+                                                      .requestFocus();
+                                                }
+                                              },
+                                              child: Container(
+                                                height: 25,
+                                                width: 25,
+                                                decoration: BoxDecoration(
+                                                    image: DecorationImage(
+                                                        image: AssetImage(
+                                                            'assets/search-icon.png'))),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 20,
+                                            ),
+                                            PopupMenuButton<String>(
+                                                child: Container(
+                                                  height: 25,
+                                                  width: 25,
+                                                  decoration: BoxDecoration(
+                                                      image: DecorationImage(
+                                                          image: AssetImage(
+                                                              'assets/options-icon.png'))),
+                                                ),
+                                                color: ThemeHandler
+                                                    .getDropdownColor(
+                                                        dark: appController
+                                                            .darkMode.value),
+                                                onSelected: (val) {
+                                                  if (val == 'markallread') {
+                                                    this.markAllRead();
+                                                  } else if (val ==
+                                                      'settings') {
+                                                    Get.off(
+                                                        HomeScreen(
+                                                          currentIndex: 3,
+                                                        ),
+                                                        preventDuplicates:
+                                                            false);
+                                                  }
+                                                },
+                                                itemBuilder:
+                                                    (BuildContext context) {
+                                                  return [
+                                                    PopupMenuItem(
+                                                      child: Row(
+                                                        children: [
+                                                          Container(
+                                                            width: 20,
+                                                            height: 20,
+                                                            decoration: BoxDecoration(
+                                                                image: DecorationImage(
+                                                                    image: AssetImage(
+                                                                        'assets/markasread-icon.png'))),
+                                                          ),
+                                                          SizedBox(width: 10),
+                                                          Text(
+                                                            'Mark All Read',
+                                                            style: TextStyle(
+                                                                color: ThemeHandler.getDropdownTextColor(
+                                                                    dark: appController
+                                                                        .darkMode
+                                                                        .value)),
+                                                          )
+                                                        ],
+                                                      ),
+                                                      value: 'markallread',
+                                                    ),
+                                                    PopupMenuItem(
+                                                      child: Row(
+                                                        children: [
+                                                          Container(
+                                                            width: 20,
+                                                            height: 20,
+                                                            decoration: BoxDecoration(
+                                                                image: DecorationImage(
+                                                                    image: AssetImage(
+                                                                        'assets/new-settings-icon.png'))),
+                                                          ),
+                                                          SizedBox(width: 10),
+                                                          Text(
+                                                            'Settings',
+                                                            style: TextStyle(
+                                                                color: ThemeHandler.getDropdownTextColor(
+                                                                    dark: appController
+                                                                        .darkMode
+                                                                        .value)),
+                                                          )
+                                                        ],
+                                                      ),
+                                                      value: 'settings',
+                                                    )
+                                                  ];
+                                                })
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  )),
                               showSearch
                                   ? Positioned(
                                       top: 60,
@@ -618,18 +611,23 @@ class _MainScreenState extends State<MainScreen> {
                                                 onTap: () {
                                                   this.doSearch();
                                                 },
-                                          child: Container(
-                                              width: 30,
-                                              child: Center(
                                                 child: Container(
-                                                    width: 20,
-                                                    child: Center(child: Icon(
-                                                      Icons.search,
-                                                      color: Color.fromRGBO(127, 140, 152, 1),
-                                                      size: 28
-                                                    )),
-                                                ),
-                                              )))
+                                                    width: 30,
+                                                    child: Center(
+                                                      child: Container(
+                                                        width: 20,
+                                                        child: Center(
+                                                            child: Icon(
+                                                                Icons.search,
+                                                                color: Color
+                                                                    .fromRGBO(
+                                                                        127,
+                                                                        140,
+                                                                        152,
+                                                                        1),
+                                                                size: 28)),
+                                                      ),
+                                                    )))
                                           ],
                                         ),
                                       ),

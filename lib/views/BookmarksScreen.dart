@@ -72,6 +72,7 @@ class _MainScreenState extends State<BookmarksScreen> {
         onTap: () {
           Get.to(WebViewScreen(
             item: item,
+            showBookmark: true,
           ));
         },
         child: Container(
@@ -150,20 +151,6 @@ class _MainScreenState extends State<BookmarksScreen> {
                               62),
                           child: Row(
                             children: [
-                              Text(
-                                item['subreddit'] != null
-                                    ? 'REDDIT | '
-                                    : 'UNKNOWN | ',
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                  color: ThemeHandler.getTextColor(
-                                          dark: appController.darkMode.value)
-                                      .withAlpha(100),
-                                ),
-                              ),
                               Text(
                                 _created,
                                 maxLines: 2,
@@ -251,81 +238,79 @@ class _MainScreenState extends State<BookmarksScreen> {
                           child: Stack(
                             children: [
                               Container(
-                                padding: EdgeInsets.only(
-                                  top: 65
-                                ),
-
+                                padding: EdgeInsets.only(top: 65),
                                 child: ListView(
-                                children: [
-                                  AnimatedContainer(
-                                    duration: Duration(milliseconds: 500),
-                                    curve: Curves.easeOut,
-                                    width: 2,
-                                    height: showSearch ? 60 : 1,
-                                  ),
-                                  Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: this._filteredList.length == 0
-                                          ? [SizedBox()]
-                                          : this
-                                              ._filteredList
-                                              .map((e) => this
-                                                  .getArticleWidget(item: e))
-                                              .toList())
-                                ],
+                                  children: [
+                                    AnimatedContainer(
+                                      duration: Duration(milliseconds: 500),
+                                      curve: Curves.easeOut,
+                                      width: 2,
+                                      height: showSearch ? 60 : 1,
+                                    ),
+                                    Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: this._filteredList.length == 0
+                                            ? [SizedBox()]
+                                            : this
+                                                ._filteredList
+                                                .map((e) => this
+                                                    .getArticleWidget(item: e))
+                                                .toList())
+                                  ],
+                                ),
                               ),
-                              ),
-
-                      Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: 60,
-                          decoration: BoxDecoration(
-                            color: ThemeHandler.getTopBarColor(
-                                dark: appController.darkMode.value),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withAlpha(100),
-                                blurRadius: 20.0,
-                                offset: new Offset(0.0, 5.0),
-                              ),
-                            ],
-                          ),
-                          child: Row(
-                            children: [
-                              SizedBox(width: 30),
                               Container(
-                                width:
-                                    MediaQuery.of(context).size.width - 40 - 50,
-                                child: Text(
-                                  'Bookmarks',
-                                  style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    color: Colors.white,
-                                    fontSize: 22,
-                                  ),
-                                ),
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  this.setState(() {
-                                    showSearch = !showSearch;
-                                  });
-                                        if(showSearch) {
-                                          this.searchFocus.requestFocus();
-                                        }
-                                },
-                                child: Container(
-                                  height: 25,
-                                  width: 25,
+                                  width: MediaQuery.of(context).size.width,
+                                  height: 60,
                                   decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                          image: AssetImage(
-                                              'assets/search-icon.png'))),
-                                ),
-                              ),
-                            ],
-                          )),
+                                    color: ThemeHandler.getTopBarColor(
+                                        dark: appController.darkMode.value),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withAlpha(100),
+                                        blurRadius: 20.0,
+                                        offset: new Offset(0.0, 5.0),
+                                      ),
+                                    ],
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      SizedBox(width: 30),
+                                      Container(
+                                        width:
+                                            MediaQuery.of(context).size.width -
+                                                40 -
+                                                50,
+                                        child: Text(
+                                          'Bookmarks',
+                                          style: TextStyle(
+                                            fontFamily: 'Poppins',
+                                            color: Colors.white,
+                                            fontSize: 22,
+                                          ),
+                                        ),
+                                      ),
+                                      InkWell(
+                                        onTap: () {
+                                          this.setState(() {
+                                            showSearch = !showSearch;
+                                          });
+                                          if (showSearch) {
+                                            this.searchFocus.requestFocus();
+                                          }
+                                        },
+                                        child: Container(
+                                          height: 25,
+                                          width: 25,
+                                          decoration: BoxDecoration(
+                                              image: DecorationImage(
+                                                  image: AssetImage(
+                                                      'assets/search-icon.png'))),
+                                        ),
+                                      ),
+                                    ],
+                                  )),
                               showSearch
                                   ? Positioned(
                                       top: 60,
@@ -385,18 +370,23 @@ class _MainScreenState extends State<BookmarksScreen> {
                                                 onTap: () {
                                                   this.doSearch();
                                                 },
-                                          child: Container(
-                                              width: 30,
-                                              child: Center(
                                                 child: Container(
-                                                    width: 20,
-                                                    child: Center(child: Icon(
-                                                      Icons.search,
-                                                      color: Color.fromRGBO(127, 140, 152, 1),
-                                                      size: 28
-                                                    )),
-                                                ),
-                                              )))
+                                                    width: 30,
+                                                    child: Center(
+                                                      child: Container(
+                                                        width: 20,
+                                                        child: Center(
+                                                            child: Icon(
+                                                                Icons.search,
+                                                                color: Color
+                                                                    .fromRGBO(
+                                                                        127,
+                                                                        140,
+                                                                        152,
+                                                                        1),
+                                                                size: 28)),
+                                                      ),
+                                                    )))
                                           ],
                                         ),
                                       ),

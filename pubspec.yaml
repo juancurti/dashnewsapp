@@ -45,9 +45,10 @@ dev_dependencies:
 # following page: https://dart.dev/tools/pub/pubspec
 
 flutter_icons:
-  image_path: 'assets/icondash.png'
+  image_path: 'assets/newIcon.png'
   android: true
   ios: true
+  remove_alpha_ios: true
 # The following section is specific to Flutter.
 flutter:
 

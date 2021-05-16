@@ -162,6 +162,7 @@ class _MainScreenState extends State<ArticlesScreen> {
             onTap: () {
               Get.to(WebViewScreen(
                 item: thisItem,
+                showBookmark: false,
               ));
             },
           ),
@@ -185,76 +186,78 @@ class _MainScreenState extends State<ArticlesScreen> {
                     height: MediaQuery.of(context).size.height - 160,
                     child: Stack(
                       children: [
-                        Container(padding: EdgeInsets.only(
-                          top: 65
-                        ),
-                        child: ListView(
-                          children: [
-                            AnimatedContainer(
-                              duration: Duration(milliseconds: 500),
-                              curve: Curves.easeOut,
-                              width: 2,
-                              height: showSearch ? 60 : 1,
-                            ),
-                            Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: this._filteredList.length == 0
-                                    ? [SizedBox()]
-                                    : this
-                                        ._filteredList
-                                        .map((e) =>
-                                            this.getCategoryItem(item: e))
-                                        .toList())
-                          ],
-                        ),),
                         Container(
-                    width: MediaQuery.of(context).size.width,
-                          height: 60,
-                    decoration: BoxDecoration(
-                      color: ThemeHandler.getTopBarColor(
-                          dark: appController.darkMode.value),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withAlpha(100),
-                          blurRadius: 20.0,
-                          offset: new Offset(0.0, 5.0),
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      children: [
-                              SizedBox(width: 30),
-                        Container(
-                          width: MediaQuery.of(context).size.width - 40 - 50,
-                          child: Text(
-                            'Learning',
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              color: Colors.white,
-                              fontSize: 22,
-                            ),
+                          padding: EdgeInsets.only(top: 65),
+                          child: ListView(
+                            children: [
+                              AnimatedContainer(
+                                duration: Duration(milliseconds: 500),
+                                curve: Curves.easeOut,
+                                width: 2,
+                                height: showSearch ? 60 : 1,
+                              ),
+                              Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: this._filteredList.length == 0
+                                      ? [SizedBox()]
+                                      : this
+                                          ._filteredList
+                                          .map((e) =>
+                                              this.getCategoryItem(item: e))
+                                          .toList())
+                            ],
                           ),
                         ),
-                        InkWell(
-                          onTap: () {
-                            this.setState(() {
-                              showSearch = !showSearch;
-                            });
-                                        if(showSearch) {
-                                          this.searchFocus.requestFocus();
-                                        }
-                          },
-                          child: Container(
-                            height: 25,
-                            width: 25,
+                        Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: 60,
                             decoration: BoxDecoration(
-                                image: DecorationImage(
-                                    image:
-                                        AssetImage('assets/search-icon.png'))),
-                          ),
-                        ),
-                      ],
-                    )),
+                              color: ThemeHandler.getTopBarColor(
+                                  dark: appController.darkMode.value),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withAlpha(100),
+                                  blurRadius: 20.0,
+                                  offset: new Offset(0.0, 5.0),
+                                ),
+                              ],
+                            ),
+                            child: Row(
+                              children: [
+                                SizedBox(width: 30),
+                                Container(
+                                  width: MediaQuery.of(context).size.width -
+                                      40 -
+                                      50,
+                                  child: Text(
+                                    'Learning',
+                                    style: TextStyle(
+                                      fontFamily: 'Poppins',
+                                      color: Colors.white,
+                                      fontSize: 22,
+                                    ),
+                                  ),
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    this.setState(() {
+                                      showSearch = !showSearch;
+                                    });
+                                    if (showSearch) {
+                                      this.searchFocus.requestFocus();
+                                    }
+                                  },
+                                  child: Container(
+                                    height: 25,
+                                    width: 25,
+                                    decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                            image: AssetImage(
+                                                'assets/search-icon.png'))),
+                                  ),
+                                ),
+                              ],
+                            )),
                         showSearch
                             ? Positioned(
                                 top: 65,
@@ -279,7 +282,7 @@ class _MainScreenState extends State<ArticlesScreen> {
                                         child: TextField(
                                           controller: searchController,
                                           focusNode: this.searchFocus,
-                                                autocorrect: false,
+                                          autocorrect: false,
                                           onSubmitted: (str) {
                                             this.doSearch();
                                           },
@@ -309,12 +312,12 @@ class _MainScreenState extends State<ArticlesScreen> {
                                               width: 30,
                                               child: Center(
                                                 child: Container(
-                                                    width: 20,
-                                                    child: Center(child: Icon(
-                                                      Icons.search,
-                                                      color: Color.fromRGBO(127, 140, 152, 1),
-                                                      size: 28
-                                                    )),
+                                                  width: 20,
+                                                  child: Center(
+                                                      child: Icon(Icons.search,
+                                                          color: Color.fromRGBO(
+                                                              127, 140, 152, 1),
+                                                          size: 28)),
                                                 ),
                                               )))
                                     ],

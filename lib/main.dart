@@ -22,14 +22,18 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Dash News App',
-        color: ThemeHandler.getBackgroundColor(
-              dark: appController.darkMode.value),
+        color:
+            ThemeHandler.getBackgroundColor(dark: appController.darkMode.value),
         theme: ThemeData(
           primarySwatch: Colors.yellow,
           fontFamily: 'Poppins',
           primaryColor: Colors.orange,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        home: SplashScreen());
+        home: appController.onboardingSeen.value
+            ? HomeScreen(
+                currentIndex: 0,
+              )
+            : SplashScreen());
   }
 }

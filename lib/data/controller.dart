@@ -8,11 +8,18 @@ class ControllerSession extends GetxController {
   var exIds = [].obs;
   var seenUrls = [].obs;
   var darkMode = false.obs;
+  var onboardingSeen = false.obs;
 
   void setDarkMode({dark: bool}) async {
     storageBox.write('dark', dark);
     this.darkMode.value = dark;
     this.darkMode.refresh();
+  }
+
+  void setOnboardingSeen({onboardingseen: bool}) async {
+    storageBox.write('onboardingseen', onboardingseen);
+    this.onboardingSeen.value = onboardingseen;
+    this.onboardingSeen.refresh();
   }
 
   void addSeen({seenUrls: String}) async {
@@ -66,6 +73,11 @@ class ControllerSession extends GetxController {
       bool _dark = storageBox.read('dark');
       this.darkMode.value = _dark;
       this.darkMode.refresh();
+    }
+    if (storageBox.hasData('onboardingseen')) {
+      bool _onboardingseen = storageBox.read('onboardingseen');
+      this.onboardingSeen.value = _onboardingseen;
+      this.onboardingSeen.refresh();
     }
   }
 }

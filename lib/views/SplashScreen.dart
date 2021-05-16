@@ -244,6 +244,8 @@ class _SplashScreenState extends State<SplashScreen> {
                       children: [
                         InkWell(
                           onTap: () {
+                            appController.setOnboardingSeen(
+                                onboardingseen: true);
                             Get.off(HomeScreen(
                               currentIndex: 0,
                             ));
@@ -302,6 +304,8 @@ class _SplashScreenState extends State<SplashScreen> {
                         InkWell(
                           onTap: () {
                             if (pageController.page == 2) {
+                              appController.setOnboardingSeen(
+                                  onboardingseen: true);
                               Get.off(HomeScreen(
                                 currentIndex: 0,
                               ));

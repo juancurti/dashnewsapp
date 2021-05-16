@@ -39,16 +39,16 @@ class _SplashScreenState extends State<SplashScreen> {
           children: [
             Positioned(
               left: 0,
-              top: 0,
+              top: 40,
               child: Container(
                 width: MediaQuery.of(context).size.width,
-                height: (MediaQuery.of(context).size.height * 0.75) * 0.8,
+                height: (MediaQuery.of(context).size.height * 0.75) * 0.7,
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         fit: BoxFit.fitWidth,
                         image: AssetImage(appController.darkMode.value
-                            ? 'assets/onboarding-a2.png'
-                            : 'assets/onboarding-a.png'))),
+                            ? 'assets/img-onb-a-dark.png'
+                            : 'assets/img-onb-a.png'))),
               ),
             ),
             Positioned(
@@ -56,7 +56,7 @@ class _SplashScreenState extends State<SplashScreen> {
               bottom: 0,
               child: Container(
                 width: MediaQuery.of(context).size.width,
-                height: (MediaQuery.of(context).size.height * 0.75) * 0.3,
+                height: (MediaQuery.of(context).size.height * 0.75) * 0.2,
                 padding: EdgeInsets.symmetric(
                     horizontal: MediaQuery.of(context).size.width * 0.15),
                 child: Center(
@@ -92,16 +92,16 @@ class _SplashScreenState extends State<SplashScreen> {
           children: [
             Positioned(
               left: 0,
-              top: 0,
+              top: 40,
               child: Container(
                 width: MediaQuery.of(context).size.width,
-                height: (MediaQuery.of(context).size.height * 0.75) * 0.8,
+                height: (MediaQuery.of(context).size.height * 0.75) * 0.7,
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         fit: BoxFit.fitWidth,
                         image: AssetImage(appController.darkMode.value
-                            ? 'assets/onboarding-b2.png'
-                            : 'assets/onboarding-b.png'))),
+                            ? 'assets/img-onb-b-dark.png'
+                            : 'assets/img-onb-b.png'))),
               ),
             ),
             Positioned(
@@ -109,7 +109,7 @@ class _SplashScreenState extends State<SplashScreen> {
               bottom: 0,
               child: Container(
                 width: MediaQuery.of(context).size.width,
-                height: (MediaQuery.of(context).size.height * 0.75) * 0.3,
+                height: (MediaQuery.of(context).size.height * 0.75) * 0.2,
                 padding: EdgeInsets.symmetric(
                     horizontal: MediaQuery.of(context).size.width * 0.15),
                 child: Center(
@@ -145,16 +145,16 @@ class _SplashScreenState extends State<SplashScreen> {
           children: [
             Positioned(
               left: 0,
-              top: 0,
+              top: 40,
               child: Container(
                 width: MediaQuery.of(context).size.width,
-                height: (MediaQuery.of(context).size.height * 0.75) * 0.8,
+                height: (MediaQuery.of(context).size.height * 0.75) * 0.7,
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         fit: BoxFit.fitWidth,
                         image: AssetImage(appController.darkMode.value
-                            ? 'assets/onboarding-c2.png'
-                            : 'assets/onboarding-c.png'))),
+                            ? 'assets/img-onb-c-dark.png'
+                            : 'assets/img-onb-c.png'))),
               ),
             ),
             Positioned(
@@ -162,7 +162,7 @@ class _SplashScreenState extends State<SplashScreen> {
               bottom: 0,
               child: Container(
                 width: MediaQuery.of(context).size.width,
-                height: (MediaQuery.of(context).size.height * 0.75) * 0.3,
+                height: (MediaQuery.of(context).size.height * 0.75) * 0.2,
                 padding: EdgeInsets.symmetric(
                     horizontal: MediaQuery.of(context).size.width * 0.15),
                 child: Center(
@@ -202,118 +202,141 @@ class _SplashScreenState extends State<SplashScreen> {
       backgroundColor:
           ThemeHandler.getBottomBarColor(dark: appController.darkMode.value),
       body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        child: Column(
-          children: [
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height * 0.75,
-              child: PageView(
-                controller: this.pageController,
-                onPageChanged: (page) {
-                  this.setState(() {
-                    currentPage = page;
-                  });
-                },
-                children: this.getPageViews(),
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          child: Stack(
+            children: [
+              Positioned(
+                left: 0,
+                top: 40,
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height * 0.5,
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                          fit: BoxFit.fill,
+                          image: AssetImage(appController.darkMode.value
+                              ? 'assets/img-onb-bg-dark.png'
+                              : 'assets/img-onb-bg.png'))),
+                ),
               ),
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height * 0.25,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.center,
+              Column(
                 children: [
-                  InkWell(
-                    onTap: () {
-                      Get.off(HomeScreen(
-                        currentIndex: 0,
-                      ));
-                    },
-                    child: Container(
-                      width: 100,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        color: ThemeHandler.getOnbButton(
-                            dark: appController.darkMode.value),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Center(
-                        child: Text(
-                          'Skip',
-                          style: TextStyle(
-                              color: Colors.grey,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 18),
-                        ),
-                      ),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height * 0.75,
+                    child: PageView(
+                      controller: this.pageController,
+                      onPageChanged: (page) {
+                        this.setState(() {
+                          currentPage = page;
+                        });
+                      },
+                      children: this.getPageViews(),
                     ),
                   ),
                   Container(
-                    width: 130,
-                    height: 40,
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height * 0.25,
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [0, 1, 2]
-                          .map((e) => this.currentPage == e
-                              ? Container(
-                                  width: 12,
-                                  height: 12,
-                                  margin: EdgeInsets.symmetric(horizontal: 4),
-                                  decoration: BoxDecoration(
-                                      color: Color.fromRGBO(0, 141, 228, 1),
-                                      borderRadius: BorderRadius.circular(6)),
-                                )
-                              : Container(
-                                  width: 12,
-                                  height: 12,
-                                  margin: EdgeInsets.symmetric(horizontal: 4),
-                                  decoration: BoxDecoration(
-                                      color: Color.fromRGBO(127, 140, 152, 0.4),
-                                      borderRadius: BorderRadius.circular(6)),
-                                ))
-                          .toList(),
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      if (pageController.page == 2) {
-                        Get.off(HomeScreen(
-                          currentIndex: 0,
-                        ));
-                      } else {
-                        pageController.nextPage(
-                            duration: Duration(milliseconds: 400),
-                            curve: Curves.easeOut);
-                      }
-                    },
-                    child: Container(
-                      width: 100,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        color: ThemeHandler.getOnbButtonB(
-                            dark: appController.darkMode.value),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Center(
-                        child: Text(
-                          'Next',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 18),
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            Get.off(HomeScreen(
+                              currentIndex: 0,
+                            ));
+                          },
+                          child: Container(
+                            width: 100,
+                            height: 40,
+                            decoration: BoxDecoration(
+                              color: ThemeHandler.getOnbButton(
+                                  dark: appController.darkMode.value),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Center(
+                              child: Text(
+                                'Skip',
+                                style: TextStyle(
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 18),
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
+                        Container(
+                          width: 130,
+                          height: 40,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [0, 1, 2]
+                                .map((e) => this.currentPage == e
+                                    ? Container(
+                                        width: 12,
+                                        height: 12,
+                                        margin:
+                                            EdgeInsets.symmetric(horizontal: 4),
+                                        decoration: BoxDecoration(
+                                            color:
+                                                Color.fromRGBO(0, 141, 228, 1),
+                                            borderRadius:
+                                                BorderRadius.circular(6)),
+                                      )
+                                    : Container(
+                                        width: 12,
+                                        height: 12,
+                                        margin:
+                                            EdgeInsets.symmetric(horizontal: 4),
+                                        decoration: BoxDecoration(
+                                            color: Color.fromRGBO(
+                                                127, 140, 152, 0.4),
+                                            borderRadius:
+                                                BorderRadius.circular(6)),
+                                      ))
+                                .toList(),
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            if (pageController.page == 2) {
+                              Get.off(HomeScreen(
+                                currentIndex: 0,
+                              ));
+                            } else {
+                              pageController.nextPage(
+                                  duration: Duration(milliseconds: 400),
+                                  curve: Curves.easeOut);
+                            }
+                          },
+                          child: Container(
+                            width: 100,
+                            height: 40,
+                            decoration: BoxDecoration(
+                              color: ThemeHandler.getOnbButtonB(
+                                  dark: appController.darkMode.value),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Center(
+                              child: Text(
+                                'Next',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 18),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
-            ),
-          ],
-        ),
-      ),
+            ],
+          )),
     );
   }
 }

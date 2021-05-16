@@ -4,6 +4,7 @@ import 'package:dashnews/data/ThemeHandler.dart';
 import 'package:dashnews/data/controller.dart';
 import 'package:dashnews/views/HomeScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -25,7 +26,11 @@ class _SplashScreenState extends State<SplashScreen> {
     this.loadPosts();
   }
 
-  void loadPosts() async {}
+  void loadPosts() async {
+    var brightness = SchedulerBinding.instance.window.platformBrightness;
+    bool darkModeOn = brightness == Brightness.dark;
+    appController.setDarkMode(dark: darkModeOn);
+  }
 
   List<Widget> getPageViews() {
     return [

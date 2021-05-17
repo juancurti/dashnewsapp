@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dashnews/data/RequestHandler.dart';
 import 'package:dashnews/data/ThemeHandler.dart';
 import 'package:dashnews/data/controller.dart';
@@ -234,7 +236,7 @@ class _MainScreenState extends State<BookmarksScreen> {
                     children: [
                       Container(
                           width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height - 70,
+                          height: MediaQuery.of(context).size.height - 70 - (Platform.isIOS ? 74 : 0),
                           child: Stack(
                             children: [
                               Container(

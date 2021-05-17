@@ -256,7 +256,8 @@ class _MainScreenState extends State<BookmarksScreen> {
                                                 ._filteredList
                                                 .map((e) => this
                                                     .getArticleWidget(item: e))
-                                                .toList())
+                                                .toList()),
+                                    SizedBox(height: 40),
                                   ],
                                 ),
                               ),

@@ -204,7 +204,8 @@ class _MainScreenState extends State<ArticlesScreen> {
                                           ._filteredList
                                           .map((e) =>
                                               this.getCategoryItem(item: e))
-                                          .toList())
+                                          .toList()),
+                              SizedBox(height: 40),
                             ],
                           ),
                         ),

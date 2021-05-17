@@ -123,20 +123,32 @@ class _WebViewScreenState extends State<WebViewScreen> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               widget.showBookmark
-                                  ? InkWell(
-                                      onTap: () {
-                                        this.addBookmark();
-                                      },
-                                      child: Container(
+                                  ? !appController.exIds.contains(widget
+                                          .item['url_overridden_by_dest']
+                                          .split('m.redd')
+                                          .join('old.redd'))
+                                      ? InkWell(
+                                          onTap: () {
+                                            this.addBookmark();
+                                          },
+                                          child: Container(
+                                              width: 40,
+                                              child: Center(
+                                                child: Icon(
+                                                  Icons.bookmark_border,
+                                                  color: Colors.white,
+                                                  size: 32,
+                                                ),
+                                              )))
+                                      : Container(
                                           width: 40,
                                           child: Center(
                                             child: Icon(
-                                              Icons.bookmark_border,
+                                              Icons.bookmark,
                                               color: Colors.white,
                                               size: 32,
                                             ),
-                                          )),
-                                    )
+                                          ))
                                   : SizedBox(),
                               InkWell(
                                 onTap: () {

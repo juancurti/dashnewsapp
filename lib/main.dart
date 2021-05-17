@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -18,7 +19,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     appController.loadDataIfSaved();
-
+    SystemChrome.setSystemUIOverlayStyle(appController.darkMode.value
+        ? SystemUiOverlayStyle.dark
+            .copyWith(statusBarIconBrightness: Brightness.dark)
+        : SystemUiOverlayStyle.light
+            .copyWith(statusBarIconBrightness: Brightness.light));
     return GetMaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Dash News App',

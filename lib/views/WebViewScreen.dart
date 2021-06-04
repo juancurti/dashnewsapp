@@ -111,7 +111,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
                                           child: Icon(
                                         Icons.arrow_back,
                                         size: 32,
-                                        color: ThemeHandler.getBackgroundColor(
+                                        color: appController.darkMode.value ? Colors.white : ThemeHandler.getBackgroundColor(
                                             dark: appController.darkMode.value),
                                       )),
                                     ))
@@ -171,7 +171,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
                     )),
                 Container(
                   width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height - 60,
+                  height: MediaQuery.of(context).size.height - 150,
                   child: _loadUrl == null
                       ? SizedBox()
                       : WebView(

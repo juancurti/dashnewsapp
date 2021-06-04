@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     appController.loadDataIfSaved();
-    SystemChrome.setSystemUIOverlayStyle(appController.darkMode.value
+    SystemChrome.setSystemUIOverlayStyle(!appController.darkMode.value
         ? SystemUiOverlayStyle.dark
             .copyWith(statusBarIconBrightness: Brightness.dark)
         : SystemUiOverlayStyle.light

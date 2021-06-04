@@ -5,6 +5,7 @@ import 'package:dashnews/views/BookmarksScreen.dart';
 import 'package:dashnews/views/MainScreen.dart';
 import 'package:dashnews/views/SettingsScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -43,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
         shadowColor: Colors.transparent,
         backgroundColor: ThemeHandler.getTopBarColor(
                                 dark: appController.darkMode.value),
-              brightness: appController.darkMode.value ? Brightness.light : Brightness.dark,
+              brightness: !appController.darkMode.value ? Brightness.light : Brightness.dark,
       ),
         backgroundColor:
             ThemeHandler.getBackgroundColor(

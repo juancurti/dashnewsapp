@@ -292,11 +292,60 @@ class _MainScreenState extends State<MainScreen> {
                                       width: 2,
                                       height: showSearch ? 60 : 1,
                                     ),
+                                    !this.showSearch ? SizedBox() : InkWell(
+                                      onTap: () {
+                                        this.setState(() {
+                                          _filteredList = _originalList;
+                                          showSearch = false;
+                                        });
+                                      },
+                                      child: Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      margin: EdgeInsets.symmetric(
+                                        vertical: 10
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            'Reset search',
+                                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400,
+                                color: ThemeHandler.getTextColor(
+                                        dark: appController.darkMode.value),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                    ),
                                     Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,
                                         children: this._filteredList.length == 0
-                                            ? [SizedBox()]
+                                            ? [
+                                              Container(
+                                                width: MediaQuery.of(context).size.width * 0.8,
+                                                margin: EdgeInsets.symmetric(
+                                                  horizontal: MediaQuery.of(context).size.width * 0.1
+                                                ),
+                                                height: MediaQuery.of(context).size.height * 0.5,
+                                                child: Center(
+                                                  child: Text(
+                                                    'No results found',
+                                                    
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.w500,
+                                                      color: ThemeHandler.getTextColor(
+                                                          dark: appController.darkMode.value),
+                                                    ),
+                                                  ),
+                                                ),
+                                              )
+                                            ]
                                             : this
                                                 ._filteredList
                                                 .map((e) => this
@@ -598,7 +647,7 @@ class _MainScreenState extends State<MainScreen> {
                                                                 .darkMode
                                                                 .value)),
                                                 decoration: InputDecoration.collapsed(
-                                                    hintText: 'e.g: Venezuela',
+                                                    hintText: '',
                                                     hintStyle: TextStyle(
                                                         color: ThemeHandler
                                                             .getDropdownTextColor(

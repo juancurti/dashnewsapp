@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:get/get.dart';
 import 'package:in_app_review/in_app_review.dart';
+import 'package:share/share.dart';
 
 class SettingsScreen extends StatefulWidget {
   SettingsScreen({Key key}) : super(key: key);
@@ -67,7 +68,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             Container(
                               padding: EdgeInsets.symmetric(
                                   vertical: 16, horizontal: 20),
-                              width: MediaQuery.of(context).size.width * 0.8,
+                              width: MediaQuery.of(context).size.width * 0.9,
                               // height: 160,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(15),
@@ -87,13 +88,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                       FlutterSwitch(
                                         activeColor:
                                             Color.fromRGBO(0, 144, 228, 1),
-                                        width: 40.0,
+                                        width: 46.0,
                                         height: 25.0,
                                         valueFontSize: 15.0,
                                         toggleSize: 20.0,
                                         value: appController.darkMode.value,
                                         borderRadius: 12.0,
-                                        padding: 0.0,
+                                        padding: 2.0,
                                         showOnOff: false,
                                         onToggle: (val) {
                                           appController.setDarkMode(dark: val);
@@ -120,7 +121,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             Container(
                               padding: EdgeInsets.symmetric(
                                   vertical: 16, horizontal: 20),
-                              width: MediaQuery.of(context).size.width * 0.8,
+                              width: MediaQuery.of(context).size.width * 0.9,
                               // height: 160,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(15),
@@ -137,7 +138,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 children: [
                                   Row(
                                     children: [
-                                      Container(
+                                      InkWell(
+                                        onTap: (){
+
+                                            Share.share('Share Dash News App!');
+                                        },
+                                        child: Container(
                                           width: 40,
                                           height: 40,
                                           decoration: BoxDecoration(
@@ -157,6 +163,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                                           'assets/share-icon.png'))),
                                             ),
                                           )),
+                                      ),
                                       SizedBox(
                                         width: 10,
                                       ),
@@ -184,7 +191,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               child: Container(
                                 padding: EdgeInsets.symmetric(
                                     vertical: 16, horizontal: 20),
-                                width: MediaQuery.of(context).size.width * 0.8,
+                                width: MediaQuery.of(context).size.width * 0.9,
                                 // height: 160,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(15),
@@ -244,7 +251,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             Container(
                               padding: EdgeInsets.symmetric(
                                   vertical: 16, horizontal: 20),
-                              width: MediaQuery.of(context).size.width * 0.8,
+                              width: MediaQuery.of(context).size.width * 0.9,
                               // height: 160,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(15),

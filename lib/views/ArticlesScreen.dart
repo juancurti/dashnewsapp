@@ -241,24 +241,6 @@ class _MainScreenState extends State<ArticlesScreen> {
                                     ),
                                   ),
                                 ),
-                                InkWell(
-                                  onTap: () {
-                                    this.setState(() {
-                                      showSearch = !showSearch;
-                                    });
-                                    if (showSearch) {
-                                      this.searchFocus.requestFocus();
-                                    }
-                                  },
-                                  child: Container(
-                                    height: 25,
-                                    width: 25,
-                                    decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                            image: AssetImage(
-                                                'assets/search-icon.png'))),
-                                  ),
-                                ),
                               ],
                             )),
                         showSearch
@@ -295,7 +277,7 @@ class _MainScreenState extends State<ArticlesScreen> {
                                                       dark: appController
                                                           .darkMode.value)),
                                           decoration: InputDecoration.collapsed(
-                                              hintText: 'e.g: Venezuela',
+                                              hintText: '',
                                               hintStyle: TextStyle(
                                                   color: ThemeHandler
                                                       .getDropdownTextColor(

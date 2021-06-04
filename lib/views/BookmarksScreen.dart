@@ -240,7 +240,7 @@ class _MainScreenState extends State<BookmarksScreen> {
                           child: Stack(
                             children: [
                               Container(
-                                padding: EdgeInsets.only(top: 62),
+                                padding: EdgeInsets.only(top: 60),
                                 child: ListView(
                                   children: [
                                     AnimatedContainer(

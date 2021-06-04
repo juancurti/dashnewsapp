@@ -40,6 +40,17 @@ class ControllerSession extends GetxController {
     }
   }
 
+  void removeBookmark({exId: String}) async {
+    if (storageBox.hasData('exIds')) {
+      List<dynamic> _exIds = storageBox.read('exIds');
+      if (_exIds.indexOf(exId) != -1) {
+        _exIds.removeAt(_exIds.indexOf(exId));
+        this.exIds.value = _exIds;
+        this.exIds.refresh();
+      }
+    }
+  }
+
   void addBookmark({exId: String}) async {
     if (storageBox.hasData('exIds')) {
       List<dynamic> _exIds = storageBox.read('exIds');

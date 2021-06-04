@@ -227,19 +227,49 @@ class _MainScreenState extends State<MainScreen> {
                             ],
                           )),
                     ),
-                    _showRead
-                        ? Positioned(
-                            top: 10,
+                    Positioned(
+                            top: 30,
                             right: 10,
-                            child: Container(
-                              width: 12,
-                              height: 20,
-                              decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                      image: AssetImage(
-                                          'assets/bookmarks-icon.png'))),
+                            child: appController.exIds.contains(item['url_overridden_by_dest']
+                                          .split('m.redd')
+                                          .join('old.redd'))
+                                      ?  InkWell(
+                              onTap: () {
+                                String _loadUrl =
+                              item['url'].toString().replaceAll('old.reddit', 'm.reddit');
+                                if (_loadUrl != null) {
+                                    appController.removeBookmark(
+                                        exId: _loadUrl.replaceAll('m.reddit', 'old.reddit'));
+                                  }
+                              },
+                              child: Container(
+                              width: 40,
+                              height: 30,
+                              child: Icon(
+                                                  Icons.bookmark,
+                                                  color: Colors.white,
+                                                  size: 32,
+                                                ),
+                            )
+                            ) : InkWell(
+                              onTap: () {
+                                String _loadUrl =
+                              item['url'].toString().replaceAll('old.reddit', 'm.reddit');
+                                if (_loadUrl != null) {
+                                    appController.addBookmark(
+                                        exId: _loadUrl.replaceAll('m.reddit', 'old.reddit'));
+                                  }
+                              },
+                              child: Container(
+                              width: 40,
+                              height: 30,
+                              child:Icon(
+                                              Icons.bookmark_border,
+                                              color: Colors.white,
+                                              size: 32,
+                                            ),
+                            )
                             ))
-                        : SizedBox()
                   ],
                 ),
               ),
@@ -283,7 +313,7 @@ class _MainScreenState extends State<MainScreen> {
                           child: Stack(
                             children: [
                               Container(
-                                padding: EdgeInsets.only(top: 62),
+                                padding: EdgeInsets.only(top: 60),
                                 child: ListView(
                                   children: [
                                     AnimatedContainer(

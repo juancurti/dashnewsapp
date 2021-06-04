@@ -140,7 +140,14 @@ class _WebViewScreenState extends State<WebViewScreen> {
                                                   size: 32,
                                                 ),
                                               )))
-                                      : Container(
+                                      : InkWell(
+                                        onTap: (){
+                                          if (_loadUrl != null) {
+      appController.removeBookmark(
+          exId: _loadUrl.replaceAll('m.reddit', 'old.reddit'));
+    }
+                                        },
+                                        child: Container(
                                           width: 40,
                                           child: Center(
                                             child: Icon(
@@ -149,6 +156,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
                                               size: 32,
                                             ),
                                           ))
+                                      )
                                   : SizedBox(),
                               InkWell(
                                 onTap: () {

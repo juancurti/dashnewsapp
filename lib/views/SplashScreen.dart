@@ -39,16 +39,14 @@ class _SplashScreenState extends State<SplashScreen> {
           children: [
             Positioned(
               left: 0,
-              top: 40,
+              top: 120,
               child: Container(
                 width: MediaQuery.of(context).size.width,
-                height: (MediaQuery.of(context).size.height * 0.75) * 0.7,
+                height: ((MediaQuery.of(context).size.height * 0.95) - 40) * 0.6,
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         fit: BoxFit.fitWidth,
-                        image: AssetImage(appController.darkMode.value
-                            ? 'assets/img-onb-a-dark.png'
-                            : 'assets/img-onb-a.png'))),
+                        image: AssetImage('assets/img-onb-a.png'))),
               ),
             ),
             Positioned(
@@ -56,7 +54,7 @@ class _SplashScreenState extends State<SplashScreen> {
               bottom: 0,
               child: Container(
                 width: MediaQuery.of(context).size.width,
-                height: (MediaQuery.of(context).size.height * 0.75) * 0.2,
+                height: ((MediaQuery.of(context).size.height * 0.95) - 40) * 0.4,
                 padding: EdgeInsets.symmetric(
                     horizontal: MediaQuery.of(context).size.width * 0.15),
                 child: Center(
@@ -92,16 +90,14 @@ class _SplashScreenState extends State<SplashScreen> {
           children: [
             Positioned(
               left: 0,
-              top: 40,
+              top: 120,
               child: Container(
                 width: MediaQuery.of(context).size.width,
-                height: (MediaQuery.of(context).size.height * 0.75) * 0.7,
+                height: ((MediaQuery.of(context).size.height * 0.95) - 40) * 0.6,
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         fit: BoxFit.fitWidth,
-                        image: AssetImage(appController.darkMode.value
-                            ? 'assets/img-onb-b-dark.png'
-                            : 'assets/img-onb-b.png'))),
+                        image: AssetImage('assets/img-onb-b.png'))),
               ),
             ),
             Positioned(
@@ -109,7 +105,7 @@ class _SplashScreenState extends State<SplashScreen> {
               bottom: 0,
               child: Container(
                 width: MediaQuery.of(context).size.width,
-                height: (MediaQuery.of(context).size.height * 0.75) * 0.2,
+                height: ((MediaQuery.of(context).size.height * 0.95) - 40) * 0.4,
                 padding: EdgeInsets.symmetric(
                     horizontal: MediaQuery.of(context).size.width * 0.15),
                 child: Center(
@@ -145,16 +141,14 @@ class _SplashScreenState extends State<SplashScreen> {
           children: [
             Positioned(
               left: 0,
-              top: 40,
+              top: 120,
               child: Container(
                 width: MediaQuery.of(context).size.width,
-                height: (MediaQuery.of(context).size.height * 0.75) * 0.7,
+                height: ((MediaQuery.of(context).size.height * 0.75) - 40) * 0.6,
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         fit: BoxFit.fitWidth,
-                        image: AssetImage(appController.darkMode.value
-                            ? 'assets/img-onb-c-dark.png'
-                            : 'assets/img-onb-c.png'))),
+                        image: AssetImage('assets/img-onb-c.png'))),
               ),
             ),
             Positioned(
@@ -162,7 +156,7 @@ class _SplashScreenState extends State<SplashScreen> {
               bottom: 0,
               child: Container(
                 width: MediaQuery.of(context).size.width,
-                height: (MediaQuery.of(context).size.height * 0.75) * 0.2,
+                height: ((MediaQuery.of(context).size.height * 0.95) - 40) * 0.4,
                 padding: EdgeInsets.symmetric(
                     horizontal: MediaQuery.of(context).size.width * 0.15),
                 child: Center(
@@ -192,6 +186,9 @@ class _SplashScreenState extends State<SplashScreen> {
             )
           ],
         ),
+      ),
+      Container(
+
       )
     ];
   }
@@ -208,7 +205,7 @@ class _SplashScreenState extends State<SplashScreen> {
             children: [
               Positioned(
                 left: 0,
-                top: 40,
+                top: 120,
                 child: Container(
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height * 0.5,
@@ -224,23 +221,34 @@ class _SplashScreenState extends State<SplashScreen> {
                 children: [
                   Container(
                     width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height * 0.75,
+                    height: (MediaQuery.of(context).size.height * 0.95) - 40,
                     child: PageView(
                       controller: this.pageController,
                       onPageChanged: (page) {
                         this.setState(() {
                           currentPage = page;
                         });
+                        if(page == 3) {
+                          appController.setOnboardingSeen(
+                                  onboardingseen: true);
+                              Get.off(HomeScreen(
+                                currentIndex: 0,
+                              ));
+                        }
                       },
                       children: this.getPageViews(),
                     ),
                   ),
                   Container(
                     width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height * 0.25,
+                    margin: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).size.height * 0.05,
+                      left: 40,
+                      right: 40
+                    ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         InkWell(
                           onTap: () {

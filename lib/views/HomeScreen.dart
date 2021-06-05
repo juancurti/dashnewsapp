@@ -77,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   BottomNavigationBarItem(
                       icon: ImageIcon(
                         AssetImage('assets/home-icon.png'),
-                        size: 30,
+                        size: 25,
                         color: currentIndex == 0
                             ? Color.fromRGBO(0, 141, 228, 1)
                             : Color.fromRGBO(127, 140, 152, 1),
@@ -86,7 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   BottomNavigationBarItem(
                       icon: ImageIcon(
                         AssetImage('assets/bookmarks-icon.png'),
-                        size: 30,
+                        size: 25,
                         color: currentIndex == 1
                             ? Color.fromRGBO(0, 141, 228, 1)
                             : Color.fromRGBO(127, 140, 152, 1),
@@ -95,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   BottomNavigationBarItem(
                       icon: ImageIcon(
                         AssetImage('assets/articles-icon.png'),
-                        size: 30,
+                        size: 25,
                         color: currentIndex == 2
                             ? Color.fromRGBO(0, 141, 228, 1)
                             : Color.fromRGBO(127, 140, 152, 1),
@@ -104,7 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   BottomNavigationBarItem(
                       icon: ImageIcon(
                         AssetImage('assets/settings-icon.png'),
-                        size: 30,
+                        size: 25,
                         color: currentIndex == 3
                             ? Color.fromRGBO(0, 141, 228, 1)
                             : Color.fromRGBO(127, 140, 152, 1),

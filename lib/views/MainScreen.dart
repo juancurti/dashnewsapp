@@ -137,16 +137,16 @@ class _MainScreenState extends State<MainScreen> {
           ));
         },
         child: Container(
-          width: MediaQuery.of(context).size.width - 40,
+          width: MediaQuery.of(context).size.width - 20,
           height: 100,
-          margin: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+          margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               item['thumbnail'].toString().contains('http')
                   ? Container(
                       height: 100,
-                      width: (MediaQuery.of(context).size.width - 40) * 0.3,
+                      width: (MediaQuery.of(context).size.width - 20) * 0.35,
                       decoration: BoxDecoration(
                         image: DecorationImage(
                             fit: BoxFit.cover,
@@ -156,7 +156,7 @@ class _MainScreenState extends State<MainScreen> {
               item['thumbnail_url'].toString().contains('http')
                   ? Container(
                       height: 100,
-                      width: (MediaQuery.of(context).size.width - 40) * 0.3,
+                      width: (MediaQuery.of(context).size.width - 20) * 0.35,
                       decoration: BoxDecoration(
                         image: DecorationImage(
                             fit: BoxFit.cover,
@@ -167,7 +167,7 @@ class _MainScreenState extends State<MainScreen> {
                       !item['thumbnail_url'].toString().contains('http')
                   ? Container(
                       height: 100,
-                      width: (MediaQuery.of(context).size.width - 40) * 0.3,
+                      width: (MediaQuery.of(context).size.width - 20) * 0.35,
                       decoration: BoxDecoration(
                         color: Color.fromRGBO(255, 255, 255, 1),
                         image: DecorationImage(
@@ -178,7 +178,7 @@ class _MainScreenState extends State<MainScreen> {
                   : SizedBox(),
               Container(
                 height: 100,
-                width: ((MediaQuery.of(context).size.width - 40) * 0.7) - 4,
+                width: ((MediaQuery.of(context).size.width - 20) * 0.65) - 4,
                 color: ThemeHandler.getBottomBarColor(
                     dark: appController.darkMode.value),
                 child: Stack(
@@ -188,14 +188,14 @@ class _MainScreenState extends State<MainScreen> {
                       left: 10,
                       child: Container(
                         width:
-                            (((MediaQuery.of(context).size.width - 40) * 0.7) -
+                            (((MediaQuery.of(context).size.width - 20) * 0.65) -
                                 62),
                         child: Text(
                           item['title'],
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
-                            fontSize: 16,
+                            fontSize: 14,
                             fontWeight: FontWeight.w500,
                             color: ThemeHandler.getTextColor(
                                 dark: appController.darkMode.value),
@@ -207,17 +207,18 @@ class _MainScreenState extends State<MainScreen> {
                       bottom: 6,
                       left: 10,
                       child: Container(
-                          width: (((MediaQuery.of(context).size.width - 40) *
-                                  0.7) -
+                          width: (((MediaQuery.of(context).size.width - 20) *
+                                  0.65) -
                               62),
                           child: Row(
                             children: [
                               Text(
-                                _created,
+                                _created.toUpperCase(),
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
-                                  fontSize: 14,
+                                  fontSize: 12,
+                                  
                                   fontWeight: FontWeight.w500,
                                   color: ThemeHandler.getTextColor(
                                           dark: appController.darkMode.value)
@@ -247,7 +248,7 @@ class _MainScreenState extends State<MainScreen> {
                               height: 30,
                               child: Icon(
                                                   Icons.bookmark,
-                                                  color: Colors.white,
+                                                  color: appController.darkMode.value ? Colors.white : Colors.grey,
                                                   size: 32,
                                                 ),
                             )
@@ -265,7 +266,7 @@ class _MainScreenState extends State<MainScreen> {
                               height: 30,
                               child:Icon(
                                               Icons.bookmark_border,
-                                              color: Colors.white,
+                                                  color: appController.darkMode.value ? Colors.white : Colors.grey,
                                               size: 32,
                                             ),
                             )
@@ -425,8 +426,8 @@ class _MainScreenState extends State<MainScreen> {
                                           children: [
                                             PopupMenuButton<String>(
                                                 child: Container(
-                                                  height: 25,
-                                                  width: 25,
+                                                  height: 20,
+                                                  width: 20,
                                                   decoration: BoxDecoration(
                                                       image: DecorationImage(
                                                           image: AssetImage(
@@ -525,7 +526,7 @@ class _MainScreenState extends State<MainScreen> {
                                                   ];
                                                 }),
                                             SizedBox(
-                                              width: 20,
+                                              width: 15,
                                             ),
                                             InkWell(
                                               onTap: () {
@@ -539,8 +540,8 @@ class _MainScreenState extends State<MainScreen> {
                                                 }
                                               },
                                               child: Container(
-                                                height: 25,
-                                                width: 25,
+                                                height: 20,
+                                                width: 20,
                                                 decoration: BoxDecoration(
                                                     image: DecorationImage(
                                                         image: AssetImage(
@@ -548,12 +549,12 @@ class _MainScreenState extends State<MainScreen> {
                                               ),
                                             ),
                                             SizedBox(
-                                              width: 20,
+                                              width: 15,
                                             ),
                                             PopupMenuButton<String>(
                                                 child: Container(
-                                                  height: 25,
-                                                  width: 25,
+                                                  height: 20,
+                                                  width: 20,
                                                   decoration: BoxDecoration(
                                                       image: DecorationImage(
                                                           image: AssetImage(

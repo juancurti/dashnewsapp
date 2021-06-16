@@ -44,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
         shadowColor: Colors.transparent,
         backgroundColor: ThemeHandler.getTopBarColor(
                                 dark: appController.darkMode.value),
-              brightness: !appController.darkMode.value ? Brightness.light : Brightness.dark,
+              brightness: !appController.darkMode.value ? Brightness.dark : Brightness.dark,
       ),
         backgroundColor:
             ThemeHandler.getBackgroundColor(

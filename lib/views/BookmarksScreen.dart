@@ -92,7 +92,7 @@ class _MainScreenState extends State<BookmarksScreen> {
     DateTime _dateTime =
         DateTime.fromMillisecondsSinceEpoch(_parsedTS.toInt() * 1000);
     String _created =
-        '${RequestHandler.getMonth(value: _dateTime.month)} ${_dateTime.day} ${_dateTime.hour}:${_dateTime.minute}';
+        '${RequestHandler.getMonth(value: _dateTime.month)} ${_dateTime.day} ${_dateTime.hour.toString().padLeft(2, '0')}:${_dateTime.minute.toString().padLeft(2, '0')}';
     return InkWell(
         onTap: () {
           Get.to(WebViewScreen(
@@ -193,7 +193,7 @@ class _MainScreenState extends State<BookmarksScreen> {
                           )),
                     ),
                     Positioned(
-                            top: 30,
+                            top: 10,
                             right: 10,
                             child: appController.exIds.contains(item['url_overridden_by_dest']
                                           .split('m.redd')
@@ -209,12 +209,16 @@ class _MainScreenState extends State<BookmarksScreen> {
                               },
                               child: Container(
                               width: 40,
-                              height: 30,
-                              child: Icon(
+                              height: 60,
+                              child: Column(
+                                children: [
+                                  Container(width: 20, height: 20, child: Icon(
                                                   Icons.bookmark,
-                                                  color: appController.darkMode.value ? Colors.white : Colors.grey,
-                                                  size: 32,
-                                                ),
+                                                  color: appController.darkMode.value ? Colors.white : Colors.blue,
+                                                  size: 25,
+                                                ),)
+                                ],
+                              )
                             )
                             ) : InkWell(
                               onTap: () {
@@ -227,12 +231,19 @@ class _MainScreenState extends State<BookmarksScreen> {
                               },
                               child: Container(
                               width: 40,
-                              height: 30,
-                              child:Icon(
+                              height: 60,
+                              child:Column(
+                                children: [
+                                  Container(
+                                    width: 20, height: 20,
+                                    child: Icon(
                                               Icons.bookmark_border,
                                                   color: appController.darkMode.value ? Colors.white : Colors.grey,
-                                              size: 32,
+                                              size: 25,
                                             ),
+                                  )
+                                ],
+                              )
                             )
                             ))
                   ],

@@ -198,9 +198,16 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       backgroundColor:
           ThemeHandler.getBottomBarColor(dark: appController.darkMode.value),
+      appBar: AppBar(
+        toolbarHeight: 0,
+        shadowColor: Colors.transparent,
+        backgroundColor: ThemeHandler.getTopBarColor(
+                                dark: appController.darkMode.value),
+              brightness: !appController.darkMode.value ? Brightness.light : Brightness.dark,
+      ),
       body: Container(
           width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
+          height: MediaQuery.of(context).size.height - 50,
           child: Stack(
             children: [
               Positioned(
@@ -208,7 +215,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 top: 120,
                 child: Container(
                   width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height * 0.5,
+                  height: (MediaQuery.of(context).size.height - 50) * 0.5,
                   decoration: BoxDecoration(
                       image: DecorationImage(
                           fit: BoxFit.fill,
@@ -221,7 +228,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 children: [
                   Container(
                     width: MediaQuery.of(context).size.width,
-                    height: (MediaQuery.of(context).size.height * 0.95) - 40,
+                    height: (MediaQuery.of(context).size.height * 0.95) - 90,
                     child: PageView(
                       controller: this.pageController,
                       onPageChanged: (page) {

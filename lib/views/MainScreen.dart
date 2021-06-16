@@ -128,7 +128,7 @@ class _MainScreenState extends State<MainScreen> {
     DateTime _dateTime =
         DateTime.fromMillisecondsSinceEpoch(_parsedTS.toInt() * 1000);
     String _created =
-        '${RequestHandler.getMonth(value: _dateTime.month)} ${_dateTime.day} ${_dateTime.hour}:${_dateTime.minute}';
+        '${RequestHandler.getMonth(value: _dateTime.month)} ${_dateTime.day} ${_dateTime.hour.toString().padLeft(2, '0')}:${_dateTime.minute.toString().padLeft(2, '0')}';
     return InkWell(
         onTap: () {
           Get.to(WebViewScreen(
@@ -229,7 +229,7 @@ class _MainScreenState extends State<MainScreen> {
                           )),
                     ),
                     Positioned(
-                            top: 30,
+                            top: 10,
                             right: 10,
                             child: appController.exIds.contains(item['url_overridden_by_dest']
                                           .split('m.redd')
@@ -245,12 +245,16 @@ class _MainScreenState extends State<MainScreen> {
                               },
                               child: Container(
                               width: 40,
-                              height: 30,
-                              child: Icon(
+                              height: 60,
+                              child: Column(
+                                children: [
+                                  Container(width: 20, height: 20, child: Icon(
                                                   Icons.bookmark,
-                                                  color: appController.darkMode.value ? Colors.white : Colors.grey,
-                                                  size: 32,
-                                                ),
+                                                  color: appController.darkMode.value ? Colors.white : Colors.blue,
+                                                  size: 25,
+                                                ),)
+                                ],
+                              )
                             )
                             ) : InkWell(
                               onTap: () {
@@ -263,12 +267,19 @@ class _MainScreenState extends State<MainScreen> {
                               },
                               child: Container(
                               width: 40,
-                              height: 30,
-                              child:Icon(
+                              height: 60,
+                              child:Column(
+                                children: [
+                                  Container(
+                                    width: 20, height: 20,
+                                    child: Icon(
                                               Icons.bookmark_border,
                                                   color: appController.darkMode.value ? Colors.white : Colors.grey,
-                                              size: 32,
+                                              size: 25,
                                             ),
+                                  )
+                                ],
+                              )
                             )
                             ))
                   ],
@@ -407,7 +418,7 @@ class _MainScreenState extends State<MainScreen> {
                                         width:
                                             MediaQuery.of(context).size.width -
                                                 40 -
-                                                150,
+                                                110,
                                         child: Text(
                                           'Dash News',
                                           style: TextStyle(
@@ -418,7 +429,6 @@ class _MainScreenState extends State<MainScreen> {
                                         ),
                                       ),
                                       Container(
-                                        width: 150,
                                         height: 60,
                                         child: Row(
                                           mainAxisAlignment:
@@ -426,12 +436,13 @@ class _MainScreenState extends State<MainScreen> {
                                           children: [
                                             PopupMenuButton<String>(
                                                 child: Container(
-                                                  height: 20,
-                                                  width: 20,
-                                                  decoration: BoxDecoration(
+                                                  height: 40,
+                                                  width: 40,
+                                                  child: Center(child: Container(width: 20, height: 20, decoration: BoxDecoration(
                                                       image: DecorationImage(
                                                           image: AssetImage(
-                                                              'assets/filter-icon.png'))),
+                                                              'assets/filter-icon.png'))),))
+                                                  
                                                 ),
                                                 color: ThemeHandler
                                                     .getDropdownColor(
@@ -525,9 +536,6 @@ class _MainScreenState extends State<MainScreen> {
                                                     ),
                                                   ];
                                                 }),
-                                            SizedBox(
-                                              width: 15,
-                                            ),
                                             InkWell(
                                               onTap: () {
                                                 this.setState(() {
@@ -540,25 +548,24 @@ class _MainScreenState extends State<MainScreen> {
                                                 }
                                               },
                                               child: Container(
-                                                height: 20,
-                                                width: 20,
-                                                decoration: BoxDecoration(
+                                                height: 40,
+                                                width: 40,
+                                                child: Center(child: Container(width: 20, height: 20, decoration: BoxDecoration(
                                                     image: DecorationImage(
                                                         image: AssetImage(
-                                                            'assets/search-icon.png'))),
+                                                            'assets/search-icon.png'))),))
+                                                
                                               ),
-                                            ),
-                                            SizedBox(
-                                              width: 15,
                                             ),
                                             PopupMenuButton<String>(
                                                 child: Container(
-                                                  height: 20,
-                                                  width: 20,
-                                                  decoration: BoxDecoration(
+                                                  height: 40,
+                                                  width: 30,
+                                                  child: Center(child: Container(width: 20, height: 20, decoration: BoxDecoration(
                                                       image: DecorationImage(
                                                           image: AssetImage(
-                                                              'assets/options-icon.png'))),
+                                                              'assets/options-icon.png'))),),),
+                                                  
                                                 ),
                                                 color: ThemeHandler
                                                     .getDropdownColor(

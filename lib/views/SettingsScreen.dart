@@ -116,9 +116,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               ),
                             ),
                             SizedBox(
-                              height: 20,
+                              height: 10,
                             ),
-                            Container(
+                            InkWell(
+                              onTap: () {
+Share.share('Share Dash News App!');
+                              },
+                              child: Container(
                               padding: EdgeInsets.symmetric(
                                   vertical: 16, horizontal: 20),
                               width: MediaQuery.of(context).size.width * 0.9,
@@ -138,12 +142,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 children: [
                                   Row(
                                     children: [
-                                      InkWell(
-                                        onTap: (){
-
-                                            Share.share('Share Dash News App!');
-                                        },
-                                        child: Container(
+                                      Container(
                                           width: 40,
                                           height: 40,
                                           decoration: BoxDecoration(
@@ -163,7 +162,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                                           'assets/share-icon.png'))),
                                             ),
                                           )),
-                                      ),
                                       SizedBox(
                                         width: 10,
                                       ),
@@ -179,8 +177,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 ],
                               ),
                             ),
+                            ),
                             SizedBox(
-                              height: 20,
+                              height: 10,
                             ),
                             InkWell(
                               onTap: () async {
@@ -246,7 +245,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               ),
                             ),
                             SizedBox(
-                              height: 20,
+                              height: 10,
                             ),
                             Container(
                               padding: EdgeInsets.symmetric(

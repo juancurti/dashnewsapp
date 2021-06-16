@@ -71,8 +71,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Color.fromRGBO(19, 20, 21, 1),
-        body: SafeArea(
-          child: Container(
+        body: Container(
             width: MediaQuery.of(context).size.width,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -80,7 +79,10 @@ class _WebViewScreenState extends State<WebViewScreen> {
               children: [
                 Container(
                     width: MediaQuery.of(context).size.width,
-                    height: 60,
+                    height: 100,
+                    padding: EdgeInsets.only(
+                      top: 40
+                    ),
                     // padding: EdgeInsets.only(top: 40),
                     decoration: BoxDecoration(
                       color: ThemeHandler.getTopBarColor(
@@ -179,7 +181,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
                     )),
                 Container(
                   width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height - 150,
+                  height: MediaQuery.of(context).size.height - 100,
                   child: _loadUrl == null
                       ? SizedBox()
                       : WebView(
@@ -189,7 +191,6 @@ class _WebViewScreenState extends State<WebViewScreen> {
                 )
               ],
             ),
-          ),
-        ));
+          ),);
   }
 }

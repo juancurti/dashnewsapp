@@ -34,7 +34,7 @@ class ThemeHandler {
   static Color getDropdownTextColor({bool dark}) {
     return dark
         ? Color.fromRGBO(242, 242, 242, 1)
-        : Color.fromRGBO(1, 32, 96, 1);
+        : Color.fromRGBO(9, 32, 96, 1);
   }
 
   static Color getDropdownColor({bool dark}) {

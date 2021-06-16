@@ -265,6 +265,7 @@ class _MainScreenState extends State<ArticlesScreen> {
                                         color: ThemeHandler.getDropdownColor(
                                             dark: appController.darkMode.value),
                                         child: TextField(
+                                          cursorColor: Colors.black,
                                           controller: searchController,
                                           focusNode: this.searchFocus,
                                           autocorrect: false,

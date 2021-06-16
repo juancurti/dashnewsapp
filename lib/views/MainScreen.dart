@@ -418,7 +418,7 @@ class _MainScreenState extends State<MainScreen> {
                                         width:
                                             MediaQuery.of(context).size.width -
                                                 40 -
-                                                110,
+                                                70,
                                         child: Text(
                                           'Dash News',
                                           style: TextStyle(
@@ -434,108 +434,6 @@ class _MainScreenState extends State<MainScreen> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
                                           children: [
-                                            PopupMenuButton<String>(
-                                                child: Container(
-                                                  height: 40,
-                                                  width: 40,
-                                                  child: Center(child: Container(width: 20, height: 20, decoration: BoxDecoration(
-                                                      image: DecorationImage(
-                                                          image: AssetImage(
-                                                              'assets/filter-icon.png'))),))
-                                                  
-                                                ),
-                                                color: ThemeHandler
-                                                    .getDropdownColor(
-                                                        dark: appController
-                                                            .darkMode.value),
-                                                onSelected: (val) {
-                                                  if (val == 'newest') {
-                                                    this.orderByNewest();
-                                                  } else if (val ==
-                                                      'popularity') {
-                                                    this.orderByPopularity();
-                                                  } else if (val ==
-                                                      'bookmarks') {
-                                                    this.filterByBookmarks();
-                                                  }
-                                                },
-                                                itemBuilder:
-                                                    (BuildContext context) {
-                                                  return [
-                                                    PopupMenuItem(
-                                                      child: Row(
-                                                        children: [
-                                                          Container(
-                                                            width: 20,
-                                                            height: 20,
-                                                            decoration: BoxDecoration(
-                                                                image: DecorationImage(
-                                                                    image: AssetImage(
-                                                                        'assets/newest-icon.png'))),
-                                                          ),
-                                                          SizedBox(width: 10),
-                                                          Text(
-                                                            'Newest',
-                                                            style: TextStyle(
-                                                                color: ThemeHandler.getDropdownTextColor(
-                                                                    dark: appController
-                                                                        .darkMode
-                                                                        .value)),
-                                                          )
-                                                        ],
-                                                      ),
-                                                      value: 'newest',
-                                                    ),
-                                                    PopupMenuItem(
-                                                      child: Row(
-                                                        children: [
-                                                          Container(
-                                                            width: 20,
-                                                            height: 20,
-                                                            decoration: BoxDecoration(
-                                                                image: DecorationImage(
-                                                                    image: AssetImage(
-                                                                        'assets/popularity-icon.png'))),
-                                                          ),
-                                                          SizedBox(width: 10),
-                                                          Text(
-                                                            'Popularity',
-                                                            style: TextStyle(
-                                                                color: ThemeHandler.getDropdownTextColor(
-                                                                    dark: appController
-                                                                        .darkMode
-                                                                        .value)),
-                                                          )
-                                                        ],
-                                                      ),
-                                                      value: 'popularity',
-                                                    ),
-                                                    PopupMenuItem(
-                                                      child: Row(
-                                                        children: [
-                                                          Container(
-                                                            width: 20,
-                                                            height: 20,
-                                                            decoration: BoxDecoration(
-                                                                image: DecorationImage(
-                                                                    image: AssetImage(
-                                                                        'assets/new-bookmarks-icon.png'))),
-                                                          ),
-                                                          SizedBox(width: 10),
-                                                          Text(
-                                                            'Bookmarks',
-                                                            style: TextStyle(
-                                                                color: ThemeHandler.getDropdownTextColor(
-                                                                    dark: appController
-                                                                        .darkMode
-                                                                        .value)),
-                                                          )
-                                                        ],
-                                                      ),
-                                                      value: 'bookmarks',
-                                                    ),
-                                                  ];
-                                                }),
                                             InkWell(
                                               onTap: () {
                                                 this.setState(() {
@@ -669,6 +567,7 @@ class _MainScreenState extends State<MainScreen> {
                                                       dark: appController
                                                           .darkMode.value),
                                               child: TextField(
+                                          cursorColor: Colors.black,
                                                 controller: searchController,
                                                 focusNode: searchFocus,
                                                 autocorrect: false,

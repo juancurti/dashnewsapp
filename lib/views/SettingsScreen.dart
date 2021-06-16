@@ -65,7 +65,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Container(
+                            InkWell(
+                              child: Container(
                               padding: EdgeInsets.symmetric(
                                   vertical: 16, horizontal: 20),
                               width: MediaQuery.of(context).size.width * 0.9,
@@ -114,6 +115,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   ),
                                 ],
                               ),
+                            ),
+                            onTap: () {
+                              appController.setDarkMode(dark: !appController.darkMode.value);
+                            },
                             ),
                             SizedBox(
                               height: 10,

@@ -460,6 +460,7 @@ class _MainScreenState extends State<BookmarksScreen> {
                                                       dark: appController
                                                           .darkMode.value),
                                               child: TextField(
+                                          cursorColor: Colors.black,
                                                 controller: searchController,
                                                 focusNode: this.searchFocus,
                                                 autocorrect: false,

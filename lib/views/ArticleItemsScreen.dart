@@ -3,20 +3,22 @@ import 'dart:io';
 import 'package:dashnews/data/RequestHandler.dart';
 import 'package:dashnews/data/ThemeHandler.dart';
 import 'package:dashnews/data/controller.dart';
-import 'package:dashnews/views/ArticleItemsScreen.dart';
 import 'package:dashnews/views/HomeScreen.dart';
 import 'package:dashnews/views/WebViewScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
-class ArticlesScreen extends StatefulWidget {
-  ArticlesScreen({Key key}) : super(key: key);
+class ArticleItemsScreen extends StatefulWidget {
+  ArticleItemsScreen({Key key, this.list, this.title}) : super(key: key);
+  final List<dynamic> list;
+  final String title;
 
   @override
   _MainScreenState createState() => _MainScreenState();
 }
 
-class _MainScreenState extends State<ArticlesScreen> {
+class _MainScreenState extends State<ArticleItemsScreen> {
   final ControllerSession appController = Get.find();
   TextEditingController searchController = TextEditingController();
   FocusNode searchFocus = FocusNode();
@@ -51,6 +53,133 @@ class _MainScreenState extends State<ArticlesScreen> {
     });
   }
 
+
+  Widget getArticleWidget({Map<String, dynamic> item}) {
+    bool _showRead = false;
+    if (item['link'] != null) {
+      _showRead = appController.exIds.contains(
+          item['link'].split('m.redd').join('old.redd'));
+    }
+
+    bool _showSeen = true;
+
+    if (item['link'] != null) {
+      _showSeen = !appController.seenUrls.contains(
+          item['link'].split('old.redd').join('m.redd'));
+    }
+
+    DateTime _dateTime =
+       new DateFormat("E, dd MMM yyyy hh:mm:ss Z").parse(item['date']);
+
+    String _created =
+        '${RequestHandler.getMonth(value: _dateTime.month)} ${_dateTime.day} ${_dateTime.hour.toString().padLeft(2, '0')}:${_dateTime.minute.toString().padLeft(2, '0')}';
+    return InkWell(
+        onTap: () {
+          Get.to(WebViewScreen(
+            item: item,
+            showBookmark: true,
+          ));
+        },
+        child: Container(
+          color: ThemeHandler.getBottomBarColor(
+                    dark: appController.darkMode.value),
+          width: MediaQuery.of(context).size.width - 20,
+          height: 100,
+          margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              item['image'].toString().contains('http')
+                  ? Container(
+                      height: 100,
+                      width: (MediaQuery.of(context).size.width - 20) * 0.35,
+                      child: Container(
+                      height: 100,
+                      margin: EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 10
+                      ),
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                            fit: BoxFit.contain,
+                            image: NetworkImage(item['image'])),
+                      )),
+                      )
+                  : SizedBox(),
+              Container(
+                height: 100,
+                width: ((MediaQuery.of(context).size.width - 20) * 0.65) - 4,
+                color: ThemeHandler.getBottomBarColor(
+                    dark: appController.darkMode.value),
+                child: Stack(
+                  children: [
+                    Positioned(
+                      top: 10,
+                      left: 10,
+                      child: Container(
+                        width:
+                            (((MediaQuery.of(context).size.width - 20) * 0.65) -
+                                62),
+                        child: Text(
+                          item['title'],
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: ThemeHandler.getTextColor(
+                                dark: appController.darkMode.value),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 6,
+                      left: 10,
+                      child: Container(
+                          width: (((MediaQuery.of(context).size.width - 20) *
+                                  0.8) -
+                              62),
+                          child: Row(
+                            children: [
+                              Text(
+                                item['source'].toUpperCase()+' | ',
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  
+                                  fontWeight: FontWeight.w500,
+                                  color: ThemeHandler.getTextColor(
+                                          dark: appController.darkMode.value)
+                                      .withAlpha(100),
+                                ),
+                              ),
+                              Text(
+                                _created.toUpperCase(),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  
+                                  fontWeight: FontWeight.w500,
+                                  color: ThemeHandler.getTextColor(
+                                          dark: appController.darkMode.value)
+                                      .withAlpha(100),
+                                ),
+                              ),
+                            ],
+                          )),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ));
+  }
+
+
   Widget getCategoryItem({Map<String, dynamic> item}) {
     List<dynamic> articles = item['articles'];
     return Column(
@@ -66,7 +195,6 @@ class _MainScreenState extends State<ArticlesScreen> {
               //     indexSelected = this._filteredList.indexOf(item);
               //   });
               // }
-              Get.to(ArticleItemsScreen(list: articles, title: item['title'],), transition: Transition.rightToLeftWithFade, duration: Duration(milliseconds: 500), curve: Curves.easeOut);
             },
             child: Container(
               width: MediaQuery.of(context).size.width - 40,
@@ -196,15 +324,14 @@ class _MainScreenState extends State<ArticlesScreen> {
                           padding: EdgeInsets.only(top: 60),
                           child: ListView(
                             children: [
-                              SizedBox(height: 20,),
+                              SizedBox(height: 30,),
                               Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: this._filteredList.length == 0
+                                  children: widget.list.length == 0
                                       ? [SizedBox()]
-                                      : this
-                                          ._filteredList
+                                      : widget.list
                                           .map((e) =>
-                                              this.getCategoryItem(item: e))
+                                              this.getArticleWidget(item: e))
                                           .toList()),
                               SizedBox(height: 40),
                             ],
@@ -212,7 +339,7 @@ class _MainScreenState extends State<ArticlesScreen> {
                         ),
                         Container(
                             width: MediaQuery.of(context).size.width,
-                            height: 60,
+                            height: 120,
                             decoration: BoxDecoration(
                               color: ThemeHandler.getTopBarColor(
                                   dark: appController.darkMode.value),
@@ -225,91 +352,39 @@ class _MainScreenState extends State<ArticlesScreen> {
                               ],
                             ),
                             child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
                                 SizedBox(width: 30),
                                 Container(
                                   width: MediaQuery.of(context).size.width -
                                       40 -
                                       50,
-                                  child: Text(
-                                    'Learning',
-                                    style: TextStyle(
-                                      fontFamily: 'Poppins',
-                                      color: Colors.white,
-                                      fontSize: 22,
-                                    ),
-                                  ),
+                                      margin: EdgeInsets.only(
+                                        bottom: 20
+                                      ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      InkWell(
+                                        onTap: (){
+                                          Get.back();
+                                        },
+                                        child: Icon(Icons.arrow_back_ios, color: Colors.white, size: 32),
+                                      ),
+                                      SizedBox(width: 10,),
+                                      Text(
+                                        widget.title,
+                                        style: TextStyle(
+                                          fontFamily: 'Poppins',
+                                          color: Colors.white,
+                                          fontSize: 22,
+                                        ),
+                                      ),
+                                    ],
+                                  )
                                 ),
                               ],
                             )),
-                        showSearch
-                            ? Positioned(
-                                top: 65,
-                                left: 0,
-                                child: Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  height: 50,
-                                  color: ThemeHandler.getDropdownColor(
-                                      dark: appController.darkMode.value),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Container(
-                                        width:
-                                            (MediaQuery.of(context).size.width *
-                                                    0.9) -
-                                                60,
-                                        color: ThemeHandler.getDropdownColor(
-                                            dark: appController.darkMode.value),
-                                        child: TextField(
-                                          cursorColor: Colors.black,
-                                          controller: searchController,
-                                          focusNode: this.searchFocus,
-                                          autocorrect: false,
-                                          onSubmitted: (str) {
-                                            this.doSearch();
-                                          },
-                                          style: TextStyle(
-                                              color: ThemeHandler
-                                                  .getDropdownTextColor(
-                                                      dark: appController
-                                                          .darkMode.value)),
-                                          decoration: InputDecoration.collapsed(
-                                              hintText: '',
-                                              hintStyle: TextStyle(
-                                                  color: ThemeHandler
-                                                      .getDropdownTextColor(
-                                                          dark: appController
-                                                              .darkMode
-                                                              .value))),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      InkWell(
-                                          onTap: () {
-                                            this.doSearch();
-                                          },
-                                          child: Container(
-                                              width: 30,
-                                              child: Center(
-                                                child: Container(
-                                                  width: 20,
-                                                  child: Center(
-                                                      child: Icon(Icons.search,
-                                                          color: Color.fromRGBO(
-                                                              127, 140, 152, 1),
-                                                          size: 28)),
-                                                ),
-                                              )))
-                                    ],
-                                  ),
-                                ),
-                              )
-                            : SizedBox()
                       ],
                     ))
               ],

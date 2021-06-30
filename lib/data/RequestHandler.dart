@@ -35,94 +35,39 @@ class RequestHandler {
     }
   }
 
-  static List<dynamic> getLearningPosts() {
-    return [
-      {
-        'title': 'Masternodes',
-        'asset': 'assets/masternodes.png',
-        'last': '13th May 2020',
-        'articles': [
-          {
-            'title': 'Dash.org: Masternodes',
-            'url': 'https://www.dash.org/masternodes/'
-          },
-          {
-            'title': 'Understanding Masternodes',
-            'url':
-                'https://docs.dash.org/en/stable/masternodes/understanding.html'
-          },
-          {
-            'title': 'Dash Masternode Tool',
-            'url': 'https://github.com/Bertrand256/dash-masternode-tool'
-          }
-        ]
-      },
-      {
-        'title': 'Governance',
-        'asset': 'assets/governance.png',
-        'last': '13th May 2020',
-        'articles': [
-          {
-            'title': 'Understanding Governance',
-            'url':
-                'https://docs.dash.org/en/stable/governance/understanding.html'
-          },
-          {
-            'title': 'Using Dash Governance',
-            'url':
-                'https://aywa-platform-docs.readthedocs.io/en/latest/governance/using.html'
-          }
-        ]
-      },
-      {
-        'title': 'Dash Mining',
-        'asset': 'assets/dashmining.png',
-        'last': '13th May 2020',
-        'articles': []
-      },
-      {
-        'title': 'Decentralized Apps',
-        'asset': 'assets/dapps.png',
-        'last': '13th May 2020',
-        'articles': []
-      },
-      {
-        'title': 'Dash Platform',
-        'asset': 'assets/dashplat.png',
-        'last': '13th May 2020',
-        'articles': []
-      },
-      {
-        'title': 'Dash Incubator',
-        'asset': 'assets/dashincub.png',
-        'last': '13th May 2020',
-        'articles': []
-      },
-      {
-        'title': 'Trading Dash',
-        'asset': 'assets/traddash.png',
-        'last': '13th May 2020',
-        'articles': []
-      },
-      {
-        'title': 'Dash Features',
-        'asset': 'assets/masternodes.png',
-        'last': '13th May 2020',
-        'articles': []
-      },
-      {
-        'title': 'Wallet Options',
-        'asset': 'assets/masternodes.png',
-        'last': '13th May 2020',
-        'articles': []
-      },
-      {
-        'title': 'Safety',
-        'asset': 'assets/masternodes.png',
-        'last': '13th May 2020',
-        'articles': []
-      },
-    ];
+  static Future<List<dynamic>> getLearningPosts() async {
+    //Date format: Fri, 01 Jan 2021 09:45:57 +0000
+    // URL: https://api.npoint.io/cfa85450ac111ff731e3
+    var source = Uri.https('api.npoint.io', '/cfa85450ac111ff731e3');
+    return http
+        .get(source)
+        .then((r) {
+      List<Map<String, dynamic>> _list = [];
+      List<dynamic> _r = json.decode(r.body);
+      print(_r);
+      for(var i=0;i<_r.length;i++) {
+        _list.add(_r[i]);
+      }
+      return _list;
+      //     return [
+      // {
+      //   'title': 'Masternodes',
+      //   'asset': 'assets/masternodes.png',
+      //   'last': '13th May 2020',
+      //   'articles': [
+      //     {
+      //       'title': 'Article Title',
+      //       'link': 'https://www.google.com',
+      //       'date': 'Wed, 30 Jun 2021 09:45:57 +0000',
+      //       'source': 'Dash News App',
+      //       'image': 'https://miro.medium.com/max/1400/0*w2WJCe3XgZg_Unl4.jpg'
+      //     },
+      //   ]
+      // },
+    // ];
+
+        });
+    
   }
 
   static Future<List<Map<String, dynamic>>> getPosts() async {

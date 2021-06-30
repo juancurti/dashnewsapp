@@ -41,6 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 0,
+        elevation: 0,
         shadowColor: Colors.transparent,
         backgroundColor: ThemeHandler.getTopBarColor(
                                 dark: appController.darkMode.value),

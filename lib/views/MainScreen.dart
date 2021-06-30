@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dashnews/data/RequestHandler.dart';
@@ -7,6 +8,8 @@ import 'package:dashnews/views/HomeScreen.dart';
 import 'package:dashnews/views/WebViewScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'dart:convert' show utf8;
 
 class MainScreen extends StatefulWidget {
   MainScreen({Key key}) : super(key: key);
@@ -23,6 +26,7 @@ class _MainScreenState extends State<MainScreen> {
   List<dynamic> _filteredList = [];
   bool showSearch = false;
   bool loaded = false;
+  ScrollController scrollController = ScrollController();
 
   @override
   void initState() {
@@ -31,21 +35,20 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   void loadPosts() async {
-    RequestHandler.getNewPosts(fromSubreddit: "dashpay").then((_dashPayPosts) {
+    final List<dynamic> _dashPayPosts = await RequestHandler.getPosts();
+    
       this.setState(() {
         _originalList = _dashPayPosts;
         _filteredList = _dashPayPosts;
         loaded = true;
       });
-    }, onError: (err) {
-      print(err);
-    });
+      
   }
 
   void orderByNewest() {
-    RequestHandler.getNewPosts(fromSubreddit: "dashpay").then((_dashPayPosts) {
+    RequestHandler.getPosts().then((_dashPayPosts) {
       List<dynamic> _new = _dashPayPosts;
-      _new.sort((b, a) => a['created_utc'].compareTo(b['created_utc']));
+      _new.sort((b, a) => a['date'].compareTo(b['date']));
       this.setState(() {
         _filteredList = _new;
       });
@@ -59,13 +62,10 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   void filterByBookmarks() {
-    RequestHandler.getNewPosts(fromSubreddit: "dashpay").then((_dashPayPosts) {
+    RequestHandler.getPosts().then((_dashPayPosts) {
       List<dynamic> _new = _dashPayPosts.where((element) {
-        if (element['url'] != null) {
-          return appController.exIds.value.contains(element['url']);
-        } else if (element['url_overridden_by_dest'] != null) {
-          return appController.exIds.value
-              .contains(element['url_overridden_by_dest']);
+        if (element['link'] != null) {
+          return appController.exIds.value.contains(element['link']);
         } else {
           return false;
         }
@@ -92,41 +92,31 @@ class _MainScreenState extends State<MainScreen> {
 
   void markAllRead() {
     _originalList.forEach((o) {
-      if (o['url'] != null) {
-        appController.addSeen(seenUrls: o['url']);
-      } else if (o['url_overridden_by_dest'] != null) {
-        appController.addSeen(seenUrls: o['url_overridden_by_dest']);
+      if (o['link'] != null) {
+        appController.addSeen(seenUrls: o['link']);
+      } else if (o['link'] != null) {
+        appController.addSeen(seenUrls: o['link']);
       }
     });
   }
 
   Widget getArticleWidget({Map<String, dynamic> item}) {
-    double _parsedTS = double.parse(item['created_utc'].toString());
-
     bool _showRead = false;
-    if (item['url'] != null) {
-      _showRead = appController.exIds
-          .contains(item['url'].split('m.redd').join('old.redd'));
-    }
-
-    if (item['url_overridden_by_dest'] != null) {
+    if (item['link'] != null) {
       _showRead = appController.exIds.contains(
-          item['url_overridden_by_dest'].split('m.redd').join('old.redd'));
+          item['link'].split('m.redd').join('old.redd'));
     }
 
     bool _showSeen = true;
-    if (item['url'] != null) {
-      _showSeen = !appController.seenUrls
-          .contains(item['url'].split('old.redd').join('m.redd'));
-    }
 
-    if (item['url_overridden_by_dest'] != null) {
+    if (item['link'] != null) {
       _showSeen = !appController.seenUrls.contains(
-          item['url_overridden_by_dest'].split('old.redd').join('m.redd'));
+          item['link'].split('old.redd').join('m.redd'));
     }
 
     DateTime _dateTime =
-        DateTime.fromMillisecondsSinceEpoch(_parsedTS.toInt() * 1000);
+       new DateFormat("E, dd MMM yyyy hh:mm:ss Z").parse(item['date']);
+
     String _created =
         '${RequestHandler.getMonth(value: _dateTime.month)} ${_dateTime.day} ${_dateTime.hour.toString().padLeft(2, '0')}:${_dateTime.minute.toString().padLeft(2, '0')}';
     return InkWell(
@@ -137,44 +127,29 @@ class _MainScreenState extends State<MainScreen> {
           ));
         },
         child: Container(
+          color: Colors.white,
           width: MediaQuery.of(context).size.width - 20,
           height: 100,
           margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              item['thumbnail'].toString().contains('http')
+              item['image'].toString().contains('http')
                   ? Container(
                       height: 100,
                       width: (MediaQuery.of(context).size.width - 20) * 0.35,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: NetworkImage(item['thumbnail'])),
-                      ))
-                  : SizedBox(),
-              item['thumbnail_url'].toString().contains('http')
-                  ? Container(
+                      child: Container(
                       height: 100,
-                      width: (MediaQuery.of(context).size.width - 20) * 0.35,
+                      margin: EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 10
+                      ),
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: NetworkImage(item['thumbnail_url'])),
-                      ))
-                  : SizedBox(),
-              !item['thumbnail'].toString().contains('http') &&
-                      !item['thumbnail_url'].toString().contains('http')
-                  ? Container(
-                      height: 100,
-                      width: (MediaQuery.of(context).size.width - 20) * 0.35,
-                      decoration: BoxDecoration(
-                        color: Color.fromRGBO(255, 255, 255, 1),
-                        image: DecorationImage(
-                            fit: BoxFit.fitWidth,
-                            image: NetworkImage(
-                                'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Reddit_logo.svg/2560px-Reddit_logo.svg.png')),
-                      ))
+                            fit: BoxFit.contain,
+                            image: NetworkImage(item['image'])),
+                      )),
+                      )
                   : SizedBox(),
               Container(
                 height: 100,
@@ -208,10 +183,23 @@ class _MainScreenState extends State<MainScreen> {
                       left: 10,
                       child: Container(
                           width: (((MediaQuery.of(context).size.width - 20) *
-                                  0.65) -
+                                  0.8) -
                               62),
                           child: Row(
                             children: [
+                              Text(
+                                item['source'].toUpperCase()+' | ',
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  
+                                  fontWeight: FontWeight.w500,
+                                  color: ThemeHandler.getTextColor(
+                                          dark: appController.darkMode.value)
+                                      .withAlpha(100),
+                                ),
+                              ),
                               Text(
                                 _created.toUpperCase(),
                                 maxLines: 2,
@@ -231,13 +219,13 @@ class _MainScreenState extends State<MainScreen> {
                     Positioned(
                             top: 10,
                             right: 10,
-                            child: appController.exIds.contains(item['url_overridden_by_dest']
+                            child: appController.exIds.contains(item['link']
                                           .split('m.redd')
                                           .join('old.redd'))
                                       ?  InkWell(
                               onTap: () {
                                 String _loadUrl =
-                              item['url'].toString().replaceAll('old.reddit', 'm.reddit');
+                              item['link'].toString().replaceAll('old.reddit', 'm.reddit');
                                 if (_loadUrl != null) {
                                     appController.removeBookmark(
                                         exId: _loadUrl.replaceAll('m.reddit', 'old.reddit'));
@@ -259,7 +247,7 @@ class _MainScreenState extends State<MainScreen> {
                             ) : InkWell(
                               onTap: () {
                                 String _loadUrl =
-                              item['url'].toString().replaceAll('old.reddit', 'm.reddit');
+                              item['link'].toString().replaceAll('old.reddit', 'm.reddit');
                                 if (_loadUrl != null) {
                                     appController.addBookmark(
                                         exId: _loadUrl.replaceAll('m.reddit', 'old.reddit'));
@@ -327,41 +315,8 @@ class _MainScreenState extends State<MainScreen> {
                               Container(
                                 padding: EdgeInsets.only(top: 60),
                                 child: ListView(
+                                  controller: scrollController,
                                   children: [
-                                    AnimatedContainer(
-                                      duration: Duration(milliseconds: 500),
-                                      curve: Curves.easeOut,
-                                      width: 2,
-                                      height: showSearch ? 60 : 1,
-                                    ),
-                                    !this.showSearch ? SizedBox() : InkWell(
-                                      onTap: () {
-                                        this.setState(() {
-                                          _filteredList = _originalList;
-                                          showSearch = false;
-                                        });
-                                      },
-                                      child: Container(
-                                      width: MediaQuery.of(context).size.width,
-                                      margin: EdgeInsets.symmetric(
-                                        vertical: 10
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            'Reset search',
-                                            style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400,
-                                color: ThemeHandler.getTextColor(
-                                        dark: appController.darkMode.value),
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    ),
                                     Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,
@@ -406,7 +361,7 @@ class _MainScreenState extends State<MainScreen> {
                                     boxShadow: [
                                       BoxShadow(
                                         color: Colors.black.withAlpha(100),
-                                        blurRadius: 20.0,
+                                        blurRadius: 10.0,
                                         offset: new Offset(0.0, 5.0),
                                       ),
                                     ],
@@ -445,7 +400,11 @@ class _MainScreenState extends State<MainScreen> {
                                                       .requestFocus();
                                                 }
                                               },
-                                              child: Container(
+                                              child: this.showSearch ? Container(
+                                                  height: 40,
+                                                  width: 40,
+                                                  child: Center(child: Icon(Icons.close, color: Colors.white,))
+                                                ) : Container(
                                                 height: 40,
                                                 width: 40,
                                                 child: Center(child: Container(width: 20, height: 20, decoration: BoxDecoration(
@@ -488,14 +447,6 @@ class _MainScreenState extends State<MainScreen> {
                                                     PopupMenuItem(
                                                       child: Row(
                                                         children: [
-                                                          Container(
-                                                            width: 20,
-                                                            height: 20,
-                                                            decoration: BoxDecoration(
-                                                                image: DecorationImage(
-                                                                    image: AssetImage(
-                                                                        'assets/markasread-icon.png'))),
-                                                          ),
                                                           SizedBox(width: 10),
                                                           Text(
                                                             'Mark All Read',
@@ -512,14 +463,6 @@ class _MainScreenState extends State<MainScreen> {
                                                     PopupMenuItem(
                                                       child: Row(
                                                         children: [
-                                                          Container(
-                                                            width: 20,
-                                                            height: 20,
-                                                            decoration: BoxDecoration(
-                                                                image: DecorationImage(
-                                                                    image: AssetImage(
-                                                                        'assets/new-settings-icon.png'))),
-                                                          ),
                                                           SizedBox(width: 10),
                                                           Text(
                                                             'Settings',
@@ -548,8 +491,15 @@ class _MainScreenState extends State<MainScreen> {
                                         width:
                                             MediaQuery.of(context).size.width,
                                         height: 50,
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                            color: Colors.blue,
+                                            width: 1
+                                          ),
+
                                         color: ThemeHandler.getDropdownColor(
                                             dark: appController.darkMode.value),
+                                        ),
                                         child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,

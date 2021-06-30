@@ -30,17 +30,17 @@ class _WebViewScreenState extends State<WebViewScreen> {
   }
 
   void loadData() {
-    if (widget.item['url'] != null) {
+    if (widget.item['link'] != null) {
       setState(() {
         _loadUrl =
-            widget.item['url'].toString().replaceAll('old.reddit', 'm.reddit');
+            widget.item['link'].toString().replaceAll('old.reddit', 'm.reddit');
       });
       if (_loadUrl != null) {
         appController.addSeen(seenUrls: _loadUrl);
       }
-    } else if (widget.item['url_overridden_by_dest'] != null) {
+    } else if (widget.item['link'] != null) {
       setState(() {
-        _loadUrl = widget.item['url_overridden_by_dest']
+        _loadUrl = widget.item['link']
             .toString()
             .replaceAll('old.reddit', 'm.reddit');
       });
@@ -90,7 +90,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black.withAlpha(100),
-                          blurRadius: 20.0,
+                          blurRadius: 10.0,
                           offset: new Offset(0.0, 5.0),
                         ),
                       ],
@@ -126,7 +126,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
                             children: [
                               widget.showBookmark
                                   ? !appController.exIds.contains(widget
-                                          .item['url_overridden_by_dest']
+                                          .item['link']
                                           .split('m.redd')
                                           .join('old.redd'))
                                       ? InkWell(

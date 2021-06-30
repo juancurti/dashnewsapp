@@ -220,7 +220,7 @@ class _MainScreenState extends State<ArticlesScreen> {
                               boxShadow: [
                                 BoxShadow(
                                   color: Colors.black.withAlpha(100),
-                                  blurRadius: 20.0,
+                                  blurRadius: 10.0,
                                   offset: new Offset(0.0, 5.0),
                                 ),
                               ],

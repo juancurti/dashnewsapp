@@ -7,6 +7,7 @@ import 'package:dashnews/views/HomeScreen.dart';
 import 'package:dashnews/views/WebViewScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class BookmarksScreen extends StatefulWidget {
   BookmarksScreen({Key key}) : super(key: key);
@@ -31,13 +32,11 @@ class _MainScreenState extends State<BookmarksScreen> {
   }
 
   void filterByBookmarks() {
-    RequestHandler.getNewPosts(fromSubreddit: "dashpay").then((_dashPayPosts) {
+    RequestHandler.getPosts().then((_dashPayPosts) {
       List<dynamic> _new = _dashPayPosts.where((element) {
-        if (element['url'] != null) {
-          return appController.exIds.value.contains(element['url']);
-        } else if (element['url_overridden_by_dest'] != null) {
-          return appController.exIds.value
-              .contains(element['url_overridden_by_dest']);
+        if (element['link'] != null) {
+          return appController.exIds.value.contains(element['link']);
+        
         } else {
           return false;
         }
@@ -65,32 +64,21 @@ class _MainScreenState extends State<BookmarksScreen> {
   }
 
   Widget getArticleWidget({Map<String, dynamic> item}) {
-    double _parsedTS = double.parse(item['created_utc'].toString());
-
     bool _showRead = false;
-    if (item['url'] != null) {
+    if (item['link'] != null) {
       _showRead = appController.exIds
-          .contains(item['url'].split('m.redd').join('old.redd'));
+          .contains(item['link'].split('m.redd').join('old.redd'));
     }
 
-    if (item['url_overridden_by_dest'] != null) {
-      _showRead = appController.exIds.contains(
-          item['url_overridden_by_dest'].split('m.redd').join('old.redd'));
-    }
 
     bool _showSeen = true;
-    if (item['url'] != null) {
+    if (item['link'] != null) {
       _showSeen = !appController.seenUrls
-          .contains(item['url'].split('old.redd').join('m.redd'));
+          .contains(item['link'].split('old.redd').join('m.redd'));
     }
 
-    if (item['url_overridden_by_dest'] != null) {
-      _showSeen = !appController.seenUrls.contains(
-          item['url_overridden_by_dest'].split('old.redd').join('m.redd'));
-    }
 
-    DateTime _dateTime =
-        DateTime.fromMillisecondsSinceEpoch(_parsedTS.toInt() * 1000);
+    DateTime _dateTime = new DateFormat("E, dd MMM yyyy hh:mm:ss Z").parse(item['date']);
     String _created =
         '${RequestHandler.getMonth(value: _dateTime.month)} ${_dateTime.day} ${_dateTime.hour.toString().padLeft(2, '0')}:${_dateTime.minute.toString().padLeft(2, '0')}';
     return InkWell(
@@ -107,38 +95,22 @@ class _MainScreenState extends State<BookmarksScreen> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              item['thumbnail'].toString().contains('http')
+              item['image'].toString().contains('http')
                   ? Container(
                       height: 100,
                       width: (MediaQuery.of(context).size.width - 20) * 0.35,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: NetworkImage(item['thumbnail'])),
-                      ))
-                  : SizedBox(),
-              item['thumbnail_url'].toString().contains('http')
-                  ? Container(
+                      child: Container(
                       height: 100,
-                      width: (MediaQuery.of(context).size.width - 20) * 0.35,
+                      margin: EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 10
+                      ),
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: NetworkImage(item['thumbnail_url'])),
-                      ))
-                  : SizedBox(),
-              !item['thumbnail'].toString().contains('http') &&
-                      !item['thumbnail_url'].toString().contains('http')
-                  ? Container(
-                      height: 100,
-                      width: (MediaQuery.of(context).size.width - 20) * 0.35,
-                      decoration: BoxDecoration(
-                        color: Color.fromRGBO(255, 255, 255, 1),
-                        image: DecorationImage(
-                            fit: BoxFit.fitWidth,
-                            image: NetworkImage(
-                                'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Reddit_logo.svg/2560px-Reddit_logo.svg.png')),
-                      ))
+                            fit: BoxFit.contain,
+                            image: NetworkImage(item['image'])),
+                      )),
+                      )
                   : SizedBox(),
               Container(
                 height: 100,
@@ -172,10 +144,23 @@ class _MainScreenState extends State<BookmarksScreen> {
                       left: 10,
                       child: Container(
                           width: (((MediaQuery.of(context).size.width - 20) *
-                                  0.65) -
+                                  0.8) -
                               62),
                           child: Row(
                             children: [
+                              Text(
+                                item['source'].toUpperCase()+' | ',
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  
+                                  fontWeight: FontWeight.w500,
+                                  color: ThemeHandler.getTextColor(
+                                          dark: appController.darkMode.value)
+                                      .withAlpha(100),
+                                ),
+                              ),
                               Text(
                                 _created.toUpperCase(),
                                 maxLines: 2,
@@ -195,13 +180,13 @@ class _MainScreenState extends State<BookmarksScreen> {
                     Positioned(
                             top: 10,
                             right: 10,
-                            child: appController.exIds.contains(item['url_overridden_by_dest']
+                            child: appController.exIds.contains(item['link']
                                           .split('m.redd')
                                           .join('old.redd'))
                                       ?  InkWell(
                               onTap: () {
                                 String _loadUrl =
-                              item['url'].toString().replaceAll('old.reddit', 'm.reddit');
+                              item['link'].toString().replaceAll('old.reddit', 'm.reddit');
                                 if (_loadUrl != null) {
                                     appController.removeBookmark(
                                         exId: _loadUrl.replaceAll('m.reddit', 'old.reddit'));
@@ -223,7 +208,7 @@ class _MainScreenState extends State<BookmarksScreen> {
                             ) : InkWell(
                               onTap: () {
                                 String _loadUrl =
-                              item['url'].toString().replaceAll('old.reddit', 'm.reddit');
+                              item['link'].toString().replaceAll('old.reddit', 'm.reddit');
                                 if (_loadUrl != null) {
                                     appController.addBookmark(
                                         exId: _loadUrl.replaceAll('m.reddit', 'old.reddit'));
@@ -292,40 +277,6 @@ class _MainScreenState extends State<BookmarksScreen> {
                                 padding: EdgeInsets.only(top: 60),
                                 child: ListView(
                                   children: [
-                                    AnimatedContainer(
-                                      duration: Duration(milliseconds: 500),
-                                      curve: Curves.easeOut,
-                                      width: 2,
-                                      height: showSearch ? 60 : 1,
-                                    ),
-                                    !this.showSearch ? SizedBox() : InkWell(
-                                      onTap: () {
-                                        this.setState(() {
-                                          _filteredList = _originalList;
-                                          showSearch = false;
-                                        });
-                                      },
-                                      child: Container(
-                                      width: MediaQuery.of(context).size.width,
-                                      margin: EdgeInsets.symmetric(
-                                        vertical: 10
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            'Reset search',
-                                            style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400,
-                                color: ThemeHandler.getTextColor(
-                                        dark: appController.darkMode.value),
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    ),
                                     Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,
@@ -391,7 +342,7 @@ class _MainScreenState extends State<BookmarksScreen> {
                                     boxShadow: [
                                       BoxShadow(
                                         color: Colors.black.withAlpha(100),
-                                        blurRadius: 20.0,
+                                        blurRadius: 10.0,
                                         offset: new Offset(0.0, 5.0),
                                       ),
                                     ],
@@ -422,7 +373,11 @@ class _MainScreenState extends State<BookmarksScreen> {
                                             this.searchFocus.requestFocus();
                                           }
                                         },
-                                        child: Container(
+                                        child: this.showSearch ? Container(
+                                                  height: 40,
+                                                  width: 40,
+                                                  child: Center(child: Icon(Icons.close, color: Colors.white,))
+                                                ) : Container(
                                           height: 25,
                                           width: 25,
                                           decoration: BoxDecoration(
@@ -441,8 +396,15 @@ class _MainScreenState extends State<BookmarksScreen> {
                                         width:
                                             MediaQuery.of(context).size.width,
                                         height: 50,
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                            color: Colors.blue,
+                                            width: 1
+                                          ),
+
                                         color: ThemeHandler.getDropdownColor(
                                             dark: appController.darkMode.value),
+                                        ),
                                         child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
@@ -477,7 +439,7 @@ class _MainScreenState extends State<BookmarksScreen> {
                                                                 .darkMode
                                                                 .value)),
                                                 decoration: InputDecoration.collapsed(
-                                                    hintText: 'e.g: Venezuela',
+                                                    hintText: '',
                                                     hintStyle: TextStyle(
                                                         color: ThemeHandler
                                                             .getDropdownTextColor(

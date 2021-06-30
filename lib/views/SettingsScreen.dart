@@ -38,7 +38,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black.withAlpha(100),
-                          blurRadius: 20.0,
+                          blurRadius: 10.0,
                           offset: new Offset(0.0, 5.0),
                         ),
                       ],
@@ -76,7 +76,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   boxShadow: [
                                     BoxShadow(
                                       color: Colors.grey.withAlpha(40),
-                                      blurRadius: 20.0,
+                                      blurRadius: 10.0,
                                       offset: new Offset(0.0, 5.0),
                                     ),
                                   ],
@@ -137,7 +137,7 @@ Share.share('Share Dash News App!');
                                   boxShadow: [
                                     BoxShadow(
                                       color: Colors.grey.withAlpha(40),
-                                      blurRadius: 20.0,
+                                      blurRadius: 10.0,
                                       offset: new Offset(0.0, 5.0),
                                     ),
                                   ],
@@ -202,7 +202,7 @@ Share.share('Share Dash News App!');
                                     boxShadow: [
                                       BoxShadow(
                                         color: Colors.grey.withAlpha(40),
-                                        blurRadius: 20.0,
+                                        blurRadius: 10.0,
                                         offset: new Offset(0.0, 5.0),
                                       ),
                                     ],
@@ -262,7 +262,7 @@ Share.share('Share Dash News App!');
                                   boxShadow: [
                                     BoxShadow(
                                       color: Colors.grey.withAlpha(40),
-                                      blurRadius: 20.0,
+                                      blurRadius: 10.0,
                                       offset: new Offset(0.0, 5.0),
                                     ),
                                   ],

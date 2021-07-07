@@ -101,17 +101,11 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   Widget getArticleWidget({Map<String, dynamic> item}) {
-    bool _showRead = false;
-    if (item['link'] != null) {
-      _showRead = appController.exIds.contains(
-          item['link'].split('m.redd').join('old.redd'));
-    }
-
     bool _showSeen = true;
 
     if (item['link'] != null) {
-      _showSeen = !appController.seenUrls.contains(
-          item['link'].split('old.redd').join('m.redd'));
+      _showSeen = appController.seenUrls.contains(
+          item['link']);
     }
 
     DateTime _dateTime =
@@ -317,6 +311,11 @@ class _MainScreenState extends State<MainScreen> {
                                 child: ListView(
                                   controller: scrollController,
                                   children: [
+                                    AnimatedContainer(
+                                      duration: Duration(milliseconds: 400),
+                                      curve: Curves.easeOut,
+                                      height: showSearch ? 60 : 0,
+                                    ),
                                     Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,
@@ -358,13 +357,6 @@ class _MainScreenState extends State<MainScreen> {
                                   decoration: BoxDecoration(
                                     color: ThemeHandler.getTopBarColor(
                                         dark: appController.darkMode.value),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black.withAlpha(100),
-                                        blurRadius: 10.0,
-                                        offset: new Offset(0.0, 5.0),
-                                      ),
-                                    ],
                                   ),
                                   child: Row(
                                     children: [
@@ -549,6 +541,9 @@ class _MainScreenState extends State<MainScreen> {
                                             InkWell(
                                                 onTap: () {
                                                   this.doSearch();
+                                                  this.setState(() {
+                                                                                                      showSearch = false;
+                                                                                                    });
                                                 },
                                                 child: Container(
                                                     width: 30,

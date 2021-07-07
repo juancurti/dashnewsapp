@@ -339,13 +339,6 @@ class _MainScreenState extends State<BookmarksScreen> {
                                   decoration: BoxDecoration(
                                     color: ThemeHandler.getTopBarColor(
                                         dark: appController.darkMode.value),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black.withAlpha(100),
-                                        blurRadius: 10.0,
-                                        offset: new Offset(0.0, 5.0),
-                                      ),
-                                    ],
                                   ),
                                   child: Row(
                                     children: [

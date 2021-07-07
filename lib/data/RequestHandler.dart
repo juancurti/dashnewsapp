@@ -141,7 +141,7 @@ class RequestHandler {
           'title':mediumDashc_items[i].title,
           'link': mediumDashc_items[i].link,
           'date': mediumDashc_items[i].pubDate,
-          'source': 'Medium | Dash Community',
+          'source': 'Medium',
           'image': RssFeed.parse(mediumDashc_response.body).image.url
         });
       }

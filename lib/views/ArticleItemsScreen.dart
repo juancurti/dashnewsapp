@@ -339,17 +339,10 @@ class _MainScreenState extends State<ArticleItemsScreen> {
                         ),
                         Container(
                             width: MediaQuery.of(context).size.width,
-                            height: 120,
+                            height: 108,
                             decoration: BoxDecoration(
                               color: ThemeHandler.getTopBarColor(
                                   dark: appController.darkMode.value),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withAlpha(100),
-                                  blurRadius: 10.0,
-                                  offset: new Offset(0.0, 5.0),
-                                ),
-                              ],
                             ),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.end,
